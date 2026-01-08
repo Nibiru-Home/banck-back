@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class Client {
 
+    private Long id;
     private String login;
     private String password;
     private String firstName;
@@ -27,6 +28,14 @@ public class Client {
         this.secondLastName = secondLastName;
         this.nationalId = nationalId;
         this.apiToken = apiToken;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getLogin() {
@@ -94,29 +103,33 @@ public class Client {
     }
 
     @Override
-            
+
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Client client = (Client) o;
-        return Objects.equals(login, client.login) && 
-               Objects.equals(password, client.password) && 
-               Objects.equals(firstName, client.firstName) && 
-               Objects.equals(lastName, client.lastName) && 
-               Objects.equals(secondLastName, client.secondLastName) && 
-               Objects.equals(nationalId, client.nationalId) && 
-               Objects.equals(apiToken, client.apiToken);
+        return Objects.equals(id, client.id) &&
+                Objects.equals(login, client.login) &&
+                Objects.equals(password, client.password) &&
+                Objects.equals(firstName, client.firstName) &&
+                Objects.equals(lastName, client.lastName) &&
+                Objects.equals(secondLastName, client.secondLastName) &&
+                Objects.equals(nationalId, client.nationalId) &&
+                Objects.equals(apiToken, client.apiToken);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(login, password, firstName, lastName, secondLastName, nationalId, apiToken);
+        return Objects.hash(id, login, password, firstName, lastName, secondLastName, nationalId, apiToken);
     }
 
     @Override
     public String toString() {
         return "Client{" +
-                "login='" + login + '\'' +
+                "id=" + id +
+                ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
