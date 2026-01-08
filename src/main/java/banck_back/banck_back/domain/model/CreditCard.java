@@ -1,9 +1,11 @@
 package banck_back.banck_back.domain.model;
+
 import java.util.Date;
 import java.util.Objects;
 
 public class CreditCard {
 
+    private Long id;
     private String cardNumber;
     private Date expiryDate;
     private String cvc;
@@ -19,6 +21,14 @@ public class CreditCard {
         this.cvc = cvc;
         this.fullName = fullName;
         this.bankAccount = bankAccount;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCardNumber() {
@@ -63,24 +73,28 @@ public class CreditCard {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         CreditCard that = (CreditCard) o;
-        return Objects.equals(cardNumber, that.cardNumber) && 
-               Objects.equals(expiryDate, that.expiryDate) && 
-               Objects.equals(cvc, that.cvc) && 
-               Objects.equals(fullName, that.fullName);
+        return Objects.equals(id, that.id) &&
+                Objects.equals(cardNumber, that.cardNumber) &&
+                Objects.equals(expiryDate, that.expiryDate) &&
+                Objects.equals(cvc, that.cvc) &&
+                Objects.equals(fullName, that.fullName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cardNumber, expiryDate, cvc, fullName);
+        return Objects.hash(id, cardNumber, expiryDate, cvc, fullName);
     }
 
     @Override
     public String toString() {
         return "CreditCard{" +
-                "cardNumber='" + cardNumber + '\'' +
+                "id=" + id +
+                ", cardNumber='" + cardNumber + '\'' +
                 ", expiryDate=" + expiryDate +
                 ", cvc='***'" +
                 ", fullName='" + fullName + '\'' +

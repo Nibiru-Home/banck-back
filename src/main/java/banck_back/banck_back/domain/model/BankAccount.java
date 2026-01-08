@@ -1,12 +1,13 @@
 package banck_back.banck_back.domain.model;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
 public class BankAccount {
 
+    private Long id;
     private BigDecimal balance;
     private String iban;
     private Client client;
@@ -20,6 +21,14 @@ public class BankAccount {
         this.balance = balance;
         this.iban = iban;
         this.client = client;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public BigDecimal getBalance() {
@@ -64,23 +73,27 @@ public class BankAccount {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         BankAccount that = (BankAccount) o;
-        return Objects.equals(balance, that.balance) && 
-               Objects.equals(iban, that.iban) && 
-               Objects.equals(client, that.client);
+        return Objects.equals(id, that.id) &&
+                Objects.equals(balance, that.balance) &&
+                Objects.equals(iban, that.iban) &&
+                Objects.equals(client, that.client);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(balance, iban, client);
+        return Objects.hash(id, balance, iban, client);
     }
 
     @Override
     public String toString() {
         return "BankAccount{" +
-                "balance=" + balance +
+                "id=" + id +
+                ", balance=" + balance +
                 ", iban='" + iban + '\'' +
                 ", client=" + (client != null ? client.getLogin() : "null") +
                 '}';

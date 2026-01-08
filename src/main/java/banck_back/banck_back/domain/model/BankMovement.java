@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class BankMovement {
 
+    private Long id;
     private MovementType type;
     private MovementOrigin origin;
     private CreditCard originCreditCard;
@@ -17,7 +18,8 @@ public class BankMovement {
     public BankMovement() {
     }
 
-    public BankMovement(MovementType type, MovementOrigin origin, CreditCard originCreditCard, Date date, BigDecimal amount, String concept, BankAccount bankAccount) {
+    public BankMovement(MovementType type, MovementOrigin origin, CreditCard originCreditCard, Date date,
+            BigDecimal amount, String concept, BankAccount bankAccount) {
         this.type = type;
         this.origin = origin;
         this.originCreditCard = originCreditCard;
@@ -25,6 +27,14 @@ public class BankMovement {
         this.amount = amount;
         this.concept = concept;
         this.bankAccount = bankAccount;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public MovementType getType() {
@@ -85,26 +95,30 @@ public class BankMovement {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         BankMovement that = (BankMovement) o;
-        return type == that.type && 
-               origin == that.origin && 
-               Objects.equals(originCreditCard, that.originCreditCard) && 
-               Objects.equals(date, that.date) && 
-               Objects.equals(amount, that.amount) && 
-               Objects.equals(concept, that.concept);
+        return Objects.equals(id, that.id) &&
+                type == that.type &&
+                origin == that.origin &&
+                Objects.equals(originCreditCard, that.originCreditCard) &&
+                Objects.equals(date, that.date) &&
+                Objects.equals(amount, that.amount) &&
+                Objects.equals(concept, that.concept);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, origin, originCreditCard, date, amount, concept);
+        return Objects.hash(id, type, origin, originCreditCard, date, amount, concept);
     }
 
     @Override
     public String toString() {
         return "BankMovement{" +
-                "type=" + type +
+                "id=" + id +
+                ", type=" + type +
                 ", origin=" + origin +
                 ", date=" + date +
                 ", amount=" + amount +
