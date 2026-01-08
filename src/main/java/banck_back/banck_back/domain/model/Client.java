@@ -3,7 +3,6 @@ package banck_back.banck_back.domain.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 public class Client {
 
     private String login;
@@ -94,18 +93,18 @@ public class Client {
     }
 
     @Override
-            
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Client client = (Client) o;
-        return Objects.equals(login, client.login) && 
-               Objects.equals(password, client.password) && 
-               Objects.equals(firstName, client.firstName) && 
-               Objects.equals(lastName, client.lastName) && 
-               Objects.equals(secondLastName, client.secondLastName) && 
-               Objects.equals(nationalId, client.nationalId) && 
-               Objects.equals(apiToken, client.apiToken);
+        return Objects.equals(login, client.login) &&
+                Objects.equals(password, client.password) &&
+                Objects.equals(firstName, client.firstName) &&
+                Objects.equals(lastName, client.lastName) &&
+                Objects.equals(secondLastName, client.secondLastName) &&
+                Objects.equals(nationalId, client.nationalId) &&
+                Objects.equals(apiToken, client.apiToken);
     }
 
     @Override
