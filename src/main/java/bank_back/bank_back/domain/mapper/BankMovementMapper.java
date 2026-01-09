@@ -1,8 +1,9 @@
-package banck_back.banck_back.domain.mapper;
+package bank_back.bank_back.domain.mapper;
 
-import banck_back.banck_back.domain.dto.BankMovementDto;
-import banck_back.banck_back.domain.model.BankMovement;
 import org.springframework.stereotype.Component;
+
+import bank_back.bank_back.domain.dto.BankMovementDto;
+import bank_back.bank_back.domain.model.BankMovement;
 
 @Component
 public class BankMovementMapper {

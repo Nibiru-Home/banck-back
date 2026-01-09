@@ -1,4 +1,4 @@
-package banck_back.banck_back.domain.model;
+package bank_back.bank_back.domain.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

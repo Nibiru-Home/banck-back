@@ -1,4 +1,4 @@
-package banck_back.banck_back.domain.dto;
+package bank_back.bank_back.domain.dto;
 
 import java.time.LocalDate;
 

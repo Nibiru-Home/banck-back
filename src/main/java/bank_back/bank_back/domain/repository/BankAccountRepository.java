@@ -1,8 +1,9 @@
-package banck_back.banck_back.domain.repository;
+package bank_back.bank_back.domain.repository;
 
-import banck_back.banck_back.domain.model.BankAccount;
 import java.util.List;
 import java.util.Optional;
+
+import bank_back.bank_back.domain.model.BankAccount;
 
 public interface BankAccountRepository {
     List<BankAccount> findAll();

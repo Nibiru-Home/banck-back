@@ -1,8 +1,9 @@
-package banck_back.banck_back.domain.mapper;
+package bank_back.bank_back.domain.mapper;
 
-import banck_back.banck_back.domain.dto.CreditCardDto;
-import banck_back.banck_back.domain.model.CreditCard;
 import org.springframework.stereotype.Component;
+
+import bank_back.bank_back.domain.dto.CreditCardDto;
+import bank_back.bank_back.domain.model.CreditCard;
 
 @Component
 public class CreditCardMapper {

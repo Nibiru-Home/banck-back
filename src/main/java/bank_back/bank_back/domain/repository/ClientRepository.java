@@ -1,8 +1,9 @@
-package banck_back.banck_back.domain.repository;
+package bank_back.bank_back.domain.repository;
 
-import banck_back.banck_back.domain.model.Client;
 import java.util.List;
 import java.util.Optional;
+
+import bank_back.bank_back.domain.model.Client;
 
 public interface ClientRepository {
     List<Client> findAll();

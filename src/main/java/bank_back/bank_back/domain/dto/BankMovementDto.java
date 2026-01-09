@@ -1,9 +1,10 @@
-package banck_back.banck_back.domain.dto;
+package bank_back.bank_back.domain.dto;
 
-import banck_back.banck_back.domain.model.MovementOrigin;
-import banck_back.banck_back.domain.model.MovementType;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import bank_back.bank_back.domain.model.MovementOrigin;
+import bank_back.bank_back.domain.model.MovementType;
 
 public record BankMovementDto(
         Long id,

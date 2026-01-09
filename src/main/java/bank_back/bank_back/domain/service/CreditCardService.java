@@ -1,7 +1,8 @@
-package banck_back.banck_back.domain.service;
+package bank_back.bank_back.domain.service;
 
-import banck_back.banck_back.domain.model.CreditCard;
 import java.util.List;
+
+import bank_back.bank_back.domain.model.CreditCard;
 
 public interface CreditCardService {
     List<CreditCard> findAll();
