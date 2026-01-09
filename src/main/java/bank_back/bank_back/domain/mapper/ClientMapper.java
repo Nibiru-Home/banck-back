@@ -43,8 +43,6 @@ public class ClientMapper {
         model.setLastName(dto.lastName());
         model.setSecondLastName(dto.secondLastName());
         model.setNationalId(dto.nationalId());
-        // password and apiToken are not in DTO? Check DTO.
-        // DTO doesn't have password. That's fine for updates/view.
 
         model.setBankAccounts(dto.bankAccounts() != null
                 ? dto.bankAccounts().stream().map(bankAccountMapper::toModel).collect(Collectors.toList())

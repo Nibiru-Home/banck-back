@@ -23,7 +23,7 @@ public class BankAccountMapper {
             return null;
         }
         return new BankAccountDto(
-                null, // Model has no ID
+                null,
                 model.getBalance(),
                 model.getIban(),
                 model.getClient() != null ? model.getClient().getId() : null,
@@ -40,10 +40,10 @@ public class BankAccountMapper {
             return null;
         }
         BankAccount model = new BankAccount();
-        // model.setId(dto.id()); // Model has no ID
+
         model.setBalance(dto.balance());
         model.setIban(dto.iban());
-        // Client relationship handled elsewhere
+
         model.setMovements(dto.movements() != null
                 ? dto.movements().stream().map(bankMovementMapper::toModel).collect(Collectors.toList())
                 : null);
