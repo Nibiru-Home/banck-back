@@ -22,10 +22,12 @@ public class ClientMapper {
         return new ClientDto(
                 model.getId(),
                 model.getLogin(),
+                model.getPassword(),
                 model.getFirstName(),
                 model.getLastName(),
                 model.getSecondLastName(),
-                model.getNationalId(),
+                model.getDNI(),
+                model.getApiToken(),
                 model.getBankAccounts() != null
                         ? model.getBankAccounts().stream().map(bankAccountMapper::toDto).collect(Collectors.toList())
                         : null);
@@ -41,9 +43,8 @@ public class ClientMapper {
         model.setFirstName(dto.firstName());
         model.setLastName(dto.lastName());
         model.setSecondLastName(dto.secondLastName());
-        model.setNationalId(dto.nationalId());
-        // password and apiToken are not in DTO? Check DTO.
-        // DTO doesn't have password. That's fine for updates/view.
+        model.setDNI(dto.DNI());
+        model.setDNI(dto.DNI());
 
         model.setBankAccounts(dto.bankAccounts() != null
                 ? dto.bankAccounts().stream().map(bankAccountMapper::toModel).collect(Collectors.toList())

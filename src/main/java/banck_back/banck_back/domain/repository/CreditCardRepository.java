@@ -6,10 +6,7 @@ import java.util.Optional;
 
 public interface CreditCardRepository {
     List<CreditCard> findAll();
-
     Optional<CreditCard> findById(Long id);
-
     CreditCard save(CreditCard creditCard);
-
     void deleteById(Long id);
 }

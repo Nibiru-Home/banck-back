@@ -12,15 +12,11 @@ public class CreditCardMapper {
             return null;
         }
         return new CreditCardDto(
-                null, // Model has no ID
-                model.getCardNumber(),
-                model.getExpiryDate() != null
-                        ? java.time.LocalDate.ofInstant(model.getExpiryDate().toInstant(),
-                                java.time.ZoneId.systemDefault())
-                        : null,
-                model.getCvc(),
-                model.getBankAccount() != null ? null : null // Model BankAccount has no ID
-        );
+                model.getId(),
+                model.getNumber(),
+                model.getExpirationDate(),
+                model.getCvv(),
+                model.getName());
     }
 
     public CreditCard toModel(CreditCardDto dto) {
@@ -28,13 +24,11 @@ public class CreditCardMapper {
             return null;
         }
         CreditCard model = new CreditCard();
-        // model.setId(dto.id()); // Model has no ID
-        model.setCardNumber(dto.number());
-        model.setExpiryDate(dto.expirationDate() != null
-                ? java.util.Date.from(dto.expirationDate().atStartOfDay(java.time.ZoneId.systemDefault()).toInstant())
-                : null);
-        model.setCvc(dto.cvv());
-        // BankAccount relationship handled elsewhere
+        model.setId(dto.id());
+        model.setNumber(dto.number());
+        model.setExpirationDate(dto.expirationDate());
+        model.setCvv(dto.cvv());
+        model.setName(dto.name());
         return model;
     }
 }

@@ -11,10 +11,13 @@ public class BankAccountMapper {
 
     private final BankMovementMapper bankMovementMapper;
     private final CreditCardMapper creditCardMapper;
+    private final ClientMapper clientMapper;
 
-    public BankAccountMapper(BankMovementMapper bankMovementMapper, CreditCardMapper creditCardMapper) {
+    public BankAccountMapper(BankMovementMapper bankMovementMapper, CreditCardMapper creditCardMapper,
+            @org.springframework.context.annotation.Lazy ClientMapper clientMapper) {
         this.bankMovementMapper = bankMovementMapper;
         this.creditCardMapper = creditCardMapper;
+        this.clientMapper = clientMapper;
     }
 
     public BankAccountDto toDto(BankAccount model) {
@@ -22,10 +25,10 @@ public class BankAccountMapper {
             return null;
         }
         return new BankAccountDto(
-                null, // Model has no ID
+                model.getId(),
                 model.getBalance(),
                 model.getIban(),
-                model.getClient() != null ? model.getClient().getId() : null,
+                clientMapper.toDto(model.getClient()),
                 model.getMovements() != null
                         ? model.getMovements().stream().map(bankMovementMapper::toDto).collect(Collectors.toList())
                         : null,
@@ -39,10 +42,12 @@ public class BankAccountMapper {
             return null;
         }
         BankAccount model = new BankAccount();
-        // model.setId(dto.id()); // Model has no ID
+        model.setId(dto.id());
         model.setBalance(dto.balance());
         model.setIban(dto.iban());
-        // Client relationship handled elsewhere
+        if (dto.client() != null) {
+            model.setClient(clientMapper.toModel(dto.client()));
+        }
         model.setMovements(dto.movements() != null
                 ? dto.movements().stream().map(bankMovementMapper::toModel).collect(Collectors.toList())
                 : null);

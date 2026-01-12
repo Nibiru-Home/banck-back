@@ -6,10 +6,7 @@ import java.util.Optional;
 
 public interface BankAccountRepository {
     List<BankAccount> findAll();
-
     Optional<BankAccount> findById(Long id);
-
     BankAccount save(BankAccount bankAccount);
-
     void deleteById(Long id);
 }

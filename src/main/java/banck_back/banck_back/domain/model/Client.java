@@ -12,7 +12,7 @@ public class Client {
     private String firstName;
     private String lastName;
     private String secondLastName;
-    private String nationalId;
+    private String DNI;
     private String apiToken;
     private List<BankAccount> bankAccounts = new ArrayList<>();
 
@@ -20,13 +20,13 @@ public class Client {
     }
 
     public Client(String login, String password, String firstName, String lastName, String secondLastName,
-            String nationalId, String apiToken) {
+            String DNI, String apiToken) {
         this.login = login;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.secondLastName = secondLastName;
-        this.nationalId = nationalId;
+        this.DNI = DNI;
         this.apiToken = apiToken;
     }
 
@@ -78,12 +78,12 @@ public class Client {
         this.secondLastName = secondLastName;
     }
 
-    public String getNationalId() {
-        return nationalId;
+    public String getDNI() {
+        return DNI;
     }
 
-    public void setNationalId(String nationalId) {
-        this.nationalId = nationalId;
+    public void setDNI(String DNI) {
+        this.DNI = DNI;
     }
 
     public String getApiToken() {
@@ -116,13 +116,13 @@ public class Client {
                 Objects.equals(firstName, client.firstName) &&
                 Objects.equals(lastName, client.lastName) &&
                 Objects.equals(secondLastName, client.secondLastName) &&
-                Objects.equals(nationalId, client.nationalId) &&
+                Objects.equals(DNI, client.DNI) &&
                 Objects.equals(apiToken, client.apiToken);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, firstName, lastName, secondLastName, nationalId, apiToken);
+        return Objects.hash(id, login, password, firstName, lastName, secondLastName, DNI, apiToken);
     }
 
     @Override
@@ -134,7 +134,7 @@ public class Client {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", secondLastName='" + secondLastName + '\'' +
-                ", nationalId='" + nationalId + '\'' +
+                ", DNI='" + DNI + '\'' +
                 ", apiToken='" + apiToken + '\'' +
                 '}';
     }

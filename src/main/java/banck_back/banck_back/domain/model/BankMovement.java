@@ -1,16 +1,16 @@
 package banck_back.banck_back.domain.model;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class BankMovement {
 
     private Long id;
-    private MovementType type;
-    private MovementOrigin origin;
+    private MovementType movementType;
+    private MovementOrigin movementOrigin;
     private CreditCard originCreditCard;
-    private Date date;
+    private LocalDateTime timestamp;
     private BigDecimal amount;
     private String concept;
     private BankAccount bankAccount;
@@ -18,12 +18,13 @@ public class BankMovement {
     public BankMovement() {
     }
 
-    public BankMovement(MovementType type, MovementOrigin origin, CreditCard originCreditCard, Date date,
+    public BankMovement(MovementType movementType, MovementOrigin movementOrigin, CreditCard originCreditCard,
+            LocalDateTime timestamp,
             BigDecimal amount, String concept, BankAccount bankAccount) {
-        this.type = type;
-        this.origin = origin;
+        this.movementType = movementType;
+        this.movementOrigin = movementOrigin;
         this.originCreditCard = originCreditCard;
-        this.date = date;
+        this.timestamp = timestamp;
         this.amount = amount;
         this.concept = concept;
         this.bankAccount = bankAccount;
@@ -37,20 +38,20 @@ public class BankMovement {
         this.id = id;
     }
 
-    public MovementType getType() {
-        return type;
+    public MovementType getMovementType() {
+        return movementType;
     }
 
-    public void setType(MovementType type) {
-        this.type = type;
+    public void setMovementType(MovementType movementType) {
+        this.movementType = movementType;
     }
 
-    public MovementOrigin getOrigin() {
-        return origin;
+    public MovementOrigin getMovementOrigin() {
+        return movementOrigin;
     }
 
-    public void setOrigin(MovementOrigin origin) {
-        this.origin = origin;
+    public void setMovementOrigin(MovementOrigin movementOrigin) {
+        this.movementOrigin = movementOrigin;
     }
 
     public CreditCard getOriginCreditCard() {
@@ -61,12 +62,12 @@ public class BankMovement {
         this.originCreditCard = originCreditCard;
     }
 
-    public Date getDate() {
-        return date;
+    public LocalDateTime getTimestamp() {
+        return timestamp;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 
     public BigDecimal getAmount() {
@@ -101,26 +102,26 @@ public class BankMovement {
             return false;
         BankMovement that = (BankMovement) o;
         return Objects.equals(id, that.id) &&
-                type == that.type &&
-                origin == that.origin &&
+                movementType == that.movementType &&
+                movementOrigin == that.movementOrigin &&
                 Objects.equals(originCreditCard, that.originCreditCard) &&
-                Objects.equals(date, that.date) &&
+                Objects.equals(timestamp, that.timestamp) &&
                 Objects.equals(amount, that.amount) &&
                 Objects.equals(concept, that.concept);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, type, origin, originCreditCard, date, amount, concept);
+        return Objects.hash(id, movementType, movementOrigin, originCreditCard, timestamp, amount, concept);
     }
 
     @Override
     public String toString() {
         return "BankMovement{" +
                 "id=" + id +
-                ", type=" + type +
-                ", origin=" + origin +
-                ", date=" + date +
+                ", movementType=" + movementType +
+                ", movementOrigin=" + movementOrigin +
+                ", timestamp=" + timestamp +
                 ", amount=" + amount +
                 ", concept='" + concept + '\'' +
                 '}';

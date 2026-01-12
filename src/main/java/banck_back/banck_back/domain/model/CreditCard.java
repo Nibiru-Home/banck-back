@@ -1,25 +1,25 @@
 package banck_back.banck_back.domain.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class CreditCard {
 
     private Long id;
-    private String cardNumber;
-    private Date expiryDate;
-    private String cvc;
-    private String fullName;
+    private String number;
+    private LocalDate expirationDate;
+    private int cvv;
+    private String name;
     private BankAccount bankAccount;
 
     public CreditCard() {
     }
 
-    public CreditCard(String cardNumber, Date expiryDate, String cvc, String fullName, BankAccount bankAccount) {
-        this.cardNumber = cardNumber;
-        this.expiryDate = expiryDate;
-        this.cvc = cvc;
-        this.fullName = fullName;
+    public CreditCard(String number, LocalDate expirationDate, int cvv, String name, BankAccount bankAccount) {
+        this.number = number;
+        this.expirationDate = expirationDate;
+        this.cvv = cvv;
+        this.name = name;
         this.bankAccount = bankAccount;
     }
 
@@ -31,36 +31,36 @@ public class CreditCard {
         this.id = id;
     }
 
-    public String getCardNumber() {
-        return cardNumber;
+    public String getNumber() {
+        return number;
     }
 
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
-    public Date getExpiryDate() {
-        return expiryDate;
+    public LocalDate getExpirationDate() {
+        return expirationDate;
     }
 
-    public void setExpiryDate(Date expiryDate) {
-        this.expiryDate = expiryDate;
+    public void setExpirationDate(LocalDate expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
-    public String getCvc() {
-        return cvc;
+    public int getCvv() {
+        return cvv;
     }
 
-    public void setCvc(String cvc) {
-        this.cvc = cvc;
+    public void setCvv(int cvv) {
+        this.cvv = cvv;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getName() {
+        return name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public BankAccount getBankAccount() {
@@ -78,26 +78,26 @@ public class CreditCard {
         if (o == null || getClass() != o.getClass())
             return false;
         CreditCard that = (CreditCard) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(cardNumber, that.cardNumber) &&
-                Objects.equals(expiryDate, that.expiryDate) &&
-                Objects.equals(cvc, that.cvc) &&
-                Objects.equals(fullName, that.fullName);
+        return cvv == that.cvv &&
+                Objects.equals(id, that.id) &&
+                Objects.equals(number, that.number) &&
+                Objects.equals(expirationDate, that.expirationDate) &&
+                Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, cardNumber, expiryDate, cvc, fullName);
+        return Objects.hash(id, number, expirationDate, cvv, name);
     }
 
     @Override
     public String toString() {
         return "CreditCard{" +
                 "id=" + id +
-                ", cardNumber='" + cardNumber + '\'' +
-                ", expiryDate=" + expiryDate +
-                ", cvc='***'" +
-                ", fullName='" + fullName + '\'' +
+                ", number='" + number + '\'' +
+                ", expirationDate=" + expirationDate +
+                ", cvv=" + cvv +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

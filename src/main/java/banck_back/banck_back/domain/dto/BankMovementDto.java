@@ -4,12 +4,16 @@ import banck_back.banck_back.domain.model.MovementOrigin;
 import banck_back.banck_back.domain.model.MovementType;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import jakarta.validation.constraints.NotNull;
+
 
 public record BankMovementDto(
         Long id,
-        BigDecimal amount,
-        LocalDateTime timestamp,
-        MovementType type,
-        MovementOrigin origin,
-        Long bankAccountId) {
+        @NotNull BigDecimal amount,
+        @NotNull MovementType movementType,
+        @NotNull MovementOrigin movementOrigin,
+        String concept,
+        @NotNull LocalDateTime timestamp,
+        CreditCardDto originCreditCard,
+        BankAccountDto destinationBankAccount) {
 }
