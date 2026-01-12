@@ -44,12 +44,7 @@ public class ClientMapper {
         model.setFirstName(dto.firstName());
         model.setLastName(dto.lastName());
         model.setSecondLastName(dto.secondLastName());
-<<<<<<< HEAD:src/main/java/banck_back/banck_back/domain/mapper/ClientMapper.java
         model.setDNI(dto.DNI());
-        model.setDNI(dto.DNI());
-=======
-        model.setNationalId(dto.nationalId());
->>>>>>> origin/develop:src/main/java/bank_back/bank_back/domain/mapper/ClientMapper.java
 
         model.setBankAccounts(dto.bankAccounts() != null
                 ? dto.bankAccounts().stream().map(bankAccountMapper::toModel).collect(Collectors.toList())

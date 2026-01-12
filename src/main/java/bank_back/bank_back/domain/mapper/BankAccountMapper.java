@@ -26,11 +26,7 @@ public class BankAccountMapper {
             return null;
         }
         return new BankAccountDto(
-<<<<<<< HEAD:src/main/java/banck_back/banck_back/domain/mapper/BankAccountMapper.java
-                model.getId(),
-=======
                 null,
->>>>>>> origin/develop:src/main/java/bank_back/bank_back/domain/mapper/BankAccountMapper.java
                 model.getBalance(),
                 model.getIban(),
                 clientMapper.toDto(model.getClient()),
@@ -47,19 +43,8 @@ public class BankAccountMapper {
             return null;
         }
         BankAccount model = new BankAccount();
-<<<<<<< HEAD:src/main/java/banck_back/banck_back/domain/mapper/BankAccountMapper.java
-        model.setId(dto.id());
         model.setBalance(dto.balance());
         model.setIban(dto.iban());
-        if (dto.client() != null) {
-            model.setClient(clientMapper.toModel(dto.client()));
-        }
-=======
-
-        model.setBalance(dto.balance());
-        model.setIban(dto.iban());
-
->>>>>>> origin/develop:src/main/java/bank_back/bank_back/domain/mapper/BankAccountMapper.java
         model.setMovements(dto.movements() != null
                 ? dto.movements().stream().map(bankMovementMapper::toModel).collect(Collectors.toList())
                 : null);

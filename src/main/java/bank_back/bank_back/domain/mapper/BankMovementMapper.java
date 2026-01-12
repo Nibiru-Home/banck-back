@@ -13,7 +13,6 @@ public class BankMovementMapper {
             return null;
         }
         return new BankMovementDto(
-<<<<<<< HEAD:src/main/java/banck_back/banck_back/domain/mapper/BankMovementMapper.java
                 model.getId(),
                 model.getAmount(),
                 model.getMovementType(),
@@ -22,17 +21,6 @@ public class BankMovementMapper {
                 model.getTimestamp(),
                 null,
                 null);
-=======
-                null,
-                model.getAmount(),
-                model.getDate() != null
-                        ? java.time.LocalDateTime.ofInstant(model.getDate().toInstant(),
-                                java.time.ZoneId.systemDefault())
-                        : null,
-                model.getType(),
-                model.getOrigin(),
-                model.getBankAccount() != null ? null : null);
->>>>>>> origin/develop:src/main/java/bank_back/bank_back/domain/mapper/BankMovementMapper.java
     }
 
     public BankMovement toModel(BankMovementDto dto) {
@@ -40,11 +28,6 @@ public class BankMovementMapper {
             return null;
         }
         BankMovement model = new BankMovement();
-<<<<<<< HEAD:src/main/java/banck_back/banck_back/domain/mapper/BankMovementMapper.java
-        model.setId(dto.id());
-=======
-
->>>>>>> origin/develop:src/main/java/bank_back/bank_back/domain/mapper/BankMovementMapper.java
         model.setAmount(dto.amount());
         model.setTimestamp(dto.timestamp());
         model.setMovementType(dto.movementType());
