@@ -8,10 +8,10 @@
 		<version>4.0.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>banck-back</groupId>
-	<artifactId>banck-back</artifactId>
+	<groupId>bank-back</groupId>
+	<artifactId>bank-back</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>banck-back</name>
+	<name>bank-back</name>
 	<description>Back del banco</description>
 	<url/>
 	<licenses>
