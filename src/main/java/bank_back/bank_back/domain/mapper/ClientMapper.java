@@ -1,19 +1,22 @@
 package bank_back.bank_back.domain.mapper;
 
-import org.springframework.stereotype.Component;
-
 import bank_back.bank_back.domain.dto.ClientDto;
 import bank_back.bank_back.domain.model.Client;
 
 import java.util.stream.Collectors;
 
-@Component
 public class ClientMapper {
 
-    private final BankAccountMapper bankAccountMapper;
+    private static ClientMapper INSTANCE;
 
-    public ClientMapper(BankAccountMapper bankAccountMapper) {
-        this.bankAccountMapper = bankAccountMapper;
+    private ClientMapper() {
+    }
+
+    public static ClientMapper getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ClientMapper();
+        }
+        return INSTANCE;
     }
 
     public ClientDto toDto(Client model) {
@@ -30,7 +33,8 @@ public class ClientMapper {
                 model.getDNI(),
                 model.getApiToken(),
                 model.getBankAccounts() != null
-                        ? model.getBankAccounts().stream().map(bankAccountMapper::toDto).collect(Collectors.toList())
+                        ? model.getBankAccounts().stream().map(BankAccountMapper.getInstance()::toDto)
+                                .collect(Collectors.toList())
                         : null);
     }
 
@@ -47,7 +51,7 @@ public class ClientMapper {
         model.setDNI(dto.DNI());
 
         model.setBankAccounts(dto.bankAccounts() != null
-                ? dto.bankAccounts().stream().map(bankAccountMapper::toModel).collect(Collectors.toList())
+                ? dto.bankAccounts().stream().map(BankAccountMapper.getInstance()::toModel).collect(Collectors.toList())
                 : null);
         return model;
     }

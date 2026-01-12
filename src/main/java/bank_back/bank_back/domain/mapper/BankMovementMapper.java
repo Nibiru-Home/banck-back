@@ -1,12 +1,21 @@
 package bank_back.bank_back.domain.mapper;
 
-import org.springframework.stereotype.Component;
-
 import bank_back.bank_back.domain.dto.BankMovementDto;
 import bank_back.bank_back.domain.model.BankMovement;
 
-@Component
 public class BankMovementMapper {
+
+    private static BankMovementMapper INSTANCE;
+
+    private BankMovementMapper() {
+    }
+
+    public static BankMovementMapper getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new BankMovementMapper();
+        }
+        return INSTANCE;
+    }
 
     public BankMovementDto toDto(BankMovement model) {
         if (model == null) {
