@@ -5,9 +5,9 @@ import bank_back.bank_back.domain.model.Token;
 
 public interface TokenService {
 
-    Token generate(UUID userId);
+    Token generate(UUID clientId);
 
     boolean validate(String tokenValue);
 
-    UUID extractUserId(String tokenValue);
+    UUID extractClientId(String tokenValue);
 }

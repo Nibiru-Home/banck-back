@@ -20,7 +20,7 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public Token generate(UUID userId) {
+    public Token generate(UUID clientId) {
 
         String value = UUID.randomUUID().toString();
         Instant now = Instant.now();
@@ -28,7 +28,7 @@ public class TokenServiceImpl implements TokenService {
         Token token = new Token(
                 UUID.randomUUID(),
                 value,
-                userId,
+                clientId,
                 now.plusSeconds(3600));
 
         tokenRepository.save(token);
@@ -44,9 +44,9 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public UUID extractUserId(String tokenValue) {
+    public UUID extractClientId(String tokenValue) {
         return tokenRepository.findByValue(tokenValue)
-                .map(Token::getUserId)
+                .map(Token::getClientId)
                 .orElseThrow(() -> new RuntimeException("Token inválido"));
     }
 }

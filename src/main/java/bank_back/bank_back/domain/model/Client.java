@@ -14,6 +14,7 @@ public class Client {
     private String lastName;
     private String secondLastName;
     private String DNI;
+    private String apiToken;
     private List<BankAccount> bankAccounts = new ArrayList<>();
 
     public Client() {
@@ -27,6 +28,7 @@ public class Client {
         this.lastName = lastName;
         this.secondLastName = secondLastName;
         this.DNI = DNI;
+        this.apiToken = apiToken;
     }
 
     public UUID getId() {
@@ -83,6 +85,14 @@ public class Client {
 
     public void setDNI(String DNI) {
         this.DNI = DNI;
+    }
+
+    public String getApiToken() {
+        return apiToken;
+    }
+
+    public void setApiToken(String apiToken) {
+        this.apiToken = apiToken;
     }
 
     public List<BankAccount> getBankAccounts() {

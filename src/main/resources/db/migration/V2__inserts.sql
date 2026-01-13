@@ -68,12 +68,12 @@ VALUES (14, 'Remove', 'Transfer', '2025-10-21 14:38:52', 1500.00, 'Transferencia
 -- Sessions
 INSERT INTO sesions (id, token_value, client_id, created_at)
 VALUES ('00000000-0000-0000-0000-000000000000', 'token1', '55555555-5555-5555-5555-555555555555', '2025-02-02 10:00:00');
-INSERT INTO sesions (id, token_value, user_id, created_at)
+INSERT INTO sesions (id, token_value, client_id, created_at)
 VALUES ('11111111-1111-1111-1111-111111111111', 'token2', '66666666-6666-6666-6666-666666666666', '2025-01-30 10:00:00');
-INSERT INTO sesions (id, token_value, user_id, created_at)
+INSERT INTO sesions (id, token_value, client_id, created_at)
 VALUES ('22222222-2222-2222-2222-222222222222', 'token3', '77777777-7777-7777-7777-777777777777', '2025-02-24 10:00:00');
-INSERT INTO sesions (id, token_value, user_id, created_at)
+INSERT INTO sesions (id, token_value, client_id, created_at)
 VALUES ('33333333-3333-3333-3333-333333333333', 'token4', '88888888-8888-8888-8888-888888888888', '2025-01-13 10:00:00');
-INSERT INTO sesions (id, token_value, user_id, created_at)
+INSERT INTO sesions (id, token_value, client_id, created_at)
 VALUES ('44444444-4444-4444-4444-444444444444', 'token5', '99999999-9999-9999-9999-999999999999', '2025-01-05 10:00:00');
 

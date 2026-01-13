@@ -7,7 +7,8 @@ public class TokenMapper {
 
     private static TokenMapper INSTANCE;
 
-    private TokenMapper() {}
+    private TokenMapper() {
+    }
 
     public static TokenMapper getInstance() {
         if (INSTANCE == null) {
@@ -17,24 +18,24 @@ public class TokenMapper {
     }
 
     public Token toToken(TokenJpaEntity tokenJpaEntity) {
-        if (tokenJpaEntity == null) return null;
+        if (tokenJpaEntity == null)
+            return null;
 
         return new Token(
                 tokenJpaEntity.getId(),
                 tokenJpaEntity.getValue(),
-                tokenJpaEntity.getUserId(),
-                tokenJpaEntity.getCreatedAt()
-        );
+                tokenJpaEntity.getClientId(),
+                tokenJpaEntity.getCreatedAt());
     }
 
     public TokenJpaEntity toTokenJpaEntity(Token token) {
-        if (token == null) return null;
+        if (token == null)
+            return null;
 
         return new TokenJpaEntity(
                 token.getId(),
                 token.getValue(),
-                token.getUserId(),
-                token.getCreatedAt()
-        );
+                token.getClientId(),
+                token.getCreatedAt());
     }
 }
