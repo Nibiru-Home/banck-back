@@ -1,38 +1,63 @@
 package bank_back.bank_back.controller.mapper;
 
-import org.springframework.stereotype.Component;
-
 import bank_back.bank_back.domain.dto.BankMovementDto;
-import bank_back.bank_back.domain.model.BankMovement;
+import bank_back.bank_back.controller.webmodel.request.BankMovementRequest;
+import bank_back.bank_back.controller.webmodel.response.BankMovementResponse;
 
-@Component
 public class BankMovementMapper {
+    private static BankMovementMapper INSTANCE;
 
-    public BankMovementDto toDto(BankMovement model) {
-        if (model == null) {
-            return null;
-        }
-        return new BankMovementDto(
-                model.getId(),
-                model.getAmount(),
-                model.getMovementType(),
-                model.getMovementOrigin(),
-                model.getConcept(),
-                model.getTimestamp(),
-                null,
-                null);
+    private BankMovementMapper() {
     }
 
-    public BankMovement toModel(BankMovementDto dto) {
-        if (dto == null) {
+    public static BankMovementMapper getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new BankMovementMapper();
+        }
+        return INSTANCE;
+    }
+
+    public BankMovementDto bankMovementRequestToBankMovementDto(BankMovementRequest bankMovementRequest) {
+        if (bankMovementRequest == null) {
             return null;
         }
-        BankMovement model = new BankMovement();
-        model.setAmount(dto.amount());
-        model.setTimestamp(dto.timestamp());
-        model.setMovementType(dto.movementType());
-        model.setMovementOrigin(dto.movementOrigin());
-        model.setConcept(dto.concept());
-        return model;
+
+        return new BankMovementDto(
+                bankMovementRequest.id(),
+                bankMovementRequest.amount(),
+                bankMovementRequest.movementType(),
+                bankMovementRequest.movementOrigin(),
+                bankMovementRequest.concept(),
+                bankMovementRequest.timestamp(),
+                bankMovementRequest.originCreditCard() != null
+                        ? CreditCardMapper.getInstance()
+                                .creditCardRequestToCreditCardDto(bankMovementRequest.originCreditCard())
+                        : null,
+                bankMovementRequest.destinationBankAccount() != null
+                        ? BankAccountMapper.getInstance()
+                                .bankAccountRequestToBankAccountDto(bankMovementRequest.destinationBankAccount())
+                        : null);
+    }
+
+    public BankMovementResponse bankMovementDtoToBankMovementResponse(BankMovementDto bankMovementDto) {
+        if (bankMovementDto == null) {
+            return null;
+        }
+
+        return new BankMovementResponse(
+                bankMovementDto.id(),
+                bankMovementDto.amount(),
+                bankMovementDto.movementType(),
+                bankMovementDto.movementOrigin(),
+                bankMovementDto.concept(),
+                bankMovementDto.timestamp(),
+                bankMovementDto.originCreditCard() != null
+                        ? CreditCardMapper.getInstance()
+                                .creditCardDtoToCreditCardResponse(bankMovementDto.originCreditCard())
+                        : null,
+                bankMovementDto.destinationBankAccount() != null
+                        ? BankAccountMapper.getInstance()
+                                .bankAccountDtoToBankAccountResponse(bankMovementDto.destinationBankAccount())
+                        : null);
     }
 }

@@ -1,7 +1,9 @@
 package bank_back.bank_back.controller;
 
-import bank_back.bank_back.domain.dto.BankMovementDto;
 import bank_back.bank_back.controller.mapper.BankMovementMapper;
+import bank_back.bank_back.controller.webmodel.request.BankMovementRequest;
+import bank_back.bank_back.controller.webmodel.response.BankMovementResponse;
+import bank_back.bank_back.domain.dto.BankMovementDto;
 import bank_back.bank_back.domain.model.BankMovement;
 import bank_back.bank_back.domain.service.BankMovementService;
 import org.springframework.http.HttpStatus;
@@ -9,53 +11,61 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/bank-movements")
 public class BankMovementController {
 
     private final BankMovementService bankMovementService;
-    private final BankMovementMapper bankMovementMapper;
+    private final bank_back.bank_back.domain.mapper.BankMovementMapper bankMovementDomainMapper;
 
-    public BankMovementController(BankMovementService bankMovementService, BankMovementMapper bankMovementMapper) {
+    public BankMovementController(BankMovementService bankMovementService,
+            bank_back.bank_back.domain.mapper.BankMovementMapper bankMovementDomainMapper) {
         this.bankMovementService = bankMovementService;
-        this.bankMovementMapper = bankMovementMapper;
+        this.bankMovementDomainMapper = bankMovementDomainMapper;
     }
 
     @GetMapping
-    public ResponseEntity<List<BankMovementDto>> findAll() {
+    public ResponseEntity<List<BankMovementResponse>> findAll() {
         List<BankMovement> bankMovements = bankMovementService.findAll();
-        List<BankMovementDto> dtos = bankMovements.stream()
-                .map(bankMovementMapper::toDto)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(dtos);
+        List<BankMovementResponse> responses = bankMovements.stream()
+                .map(bankMovementDomainMapper::toDto)
+                .map(BankMovementMapper.getInstance()::bankMovementDtoToBankMovementResponse)
+                .toList();
+        return ResponseEntity.ok(responses);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BankMovementDto> findById(@PathVariable Long id) {
+    public ResponseEntity<BankMovementResponse> findById(@PathVariable Long id) {
         BankMovement bankMovement = bankMovementService.findById(id);
         if (bankMovement == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(bankMovementMapper.toDto(bankMovement));
+        BankMovementDto dto = bankMovementDomainMapper.toDto(bankMovement);
+        return ResponseEntity.ok(BankMovementMapper.getInstance().bankMovementDtoToBankMovementResponse(dto));
     }
 
     @PostMapping
-    public ResponseEntity<BankMovementDto> create(@RequestBody BankMovementDto dto) {
-        BankMovement bankMovement = bankMovementMapper.toModel(dto);
+    public ResponseEntity<BankMovementResponse> create(@RequestBody BankMovementRequest request) {
+        BankMovementDto dto = BankMovementMapper.getInstance().bankMovementRequestToBankMovementDto(request);
+        BankMovement bankMovement = bankMovementDomainMapper.toModel(dto);
         BankMovement created = bankMovementService.create(bankMovement);
-        return ResponseEntity.status(HttpStatus.CREATED).body(bankMovementMapper.toDto(created));
+        BankMovementDto createdDto = bankMovementDomainMapper.toDto(created);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(BankMovementMapper.getInstance().bankMovementDtoToBankMovementResponse(createdDto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BankMovementDto> update(@PathVariable Long id, @RequestBody BankMovementDto dto) {
-        BankMovement bankMovement = bankMovementMapper.toModel(dto);
+    public ResponseEntity<BankMovementResponse> update(@PathVariable Long id,
+            @RequestBody BankMovementRequest request) {
+        BankMovementDto dto = BankMovementMapper.getInstance().bankMovementRequestToBankMovementDto(request);
+        BankMovement bankMovement = bankMovementDomainMapper.toModel(dto);
         BankMovement updated = bankMovementService.update(id, bankMovement);
         if (updated == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(bankMovementMapper.toDto(updated));
+        BankMovementDto updatedDto = bankMovementDomainMapper.toDto(updated);
+        return ResponseEntity.ok(BankMovementMapper.getInstance().bankMovementDtoToBankMovementResponse(updatedDto));
     }
 
     @DeleteMapping("/{id}")
