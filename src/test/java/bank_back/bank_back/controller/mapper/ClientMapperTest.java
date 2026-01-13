@@ -1,6 +1,7 @@
 package bank_back.bank_back.controller.mapper;
 
 import bank_back.bank_back.controller.webmodel.request.ClientRequest;
+import java.util.UUID;
 import bank_back.bank_back.controller.webmodel.response.ClientResponse;
 import bank_back.bank_back.domain.dto.ClientDto;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ class ClientMapperTest {
     @Test
     void clientRequestToClientDto_ShouldReturnDto_WhenRequestIsValid() {
         ClientRequest request = new ClientRequest(
-                1L,
+                UUID.randomUUID(),
                 "user1",
                 "pass123",
                 "John",
@@ -45,7 +46,7 @@ class ClientMapperTest {
     @Test
     void clientDtoToClientResponse_ShouldReturnResponse_WhenDtoIsValid() {
         ClientDto dto = new ClientDto(
-                1L,
+                UUID.randomUUID(),
                 "user1",
                 "pass123",
                 "John",

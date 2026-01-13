@@ -17,6 +17,7 @@ import bank_back.bank_back.domain.mapper.ClientMapper;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -42,14 +43,15 @@ class ClientControllerTest {
 
         private Client client;
         private ClientDto clientDto;
+        private final UUID ID = UUID.fromString("00000000-0000-0000-0000-000000000001");
 
         @BeforeEach
         void setUp() {
                 client = new Client();
-                client.setId(1L);
+                client.setId(ID);
                 client.setLogin("testuser");
 
-                clientDto = new ClientDto(1L, "testuser", "password", "John", "Doe", "Smith", "12345678A", "token",
+                clientDto = new ClientDto(ID, "testuser", "password", "John", "Doe", "Smith", "12345678A", "token",
                                 null);
         }
 
@@ -64,7 +66,7 @@ class ClientControllerTest {
                         mockMvc.perform(get("/api/clients"))
                                         .andExpect(status().isOk())
                                         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                                        .andExpect(jsonPath("$[0].id").value(1))
+                                        .andExpect(jsonPath("$[0].id").value(ID.toString()))
                                         .andExpect(jsonPath("$[0].login").value("testuser"));
                 }
         }
@@ -73,21 +75,21 @@ class ClientControllerTest {
         class GetClientByIdTests {
                 @Test
                 void getClientById_ShouldReturnClient_WhenExists() throws Exception {
-                        when(clientService.findById(1L)).thenReturn(client);
+                        when(clientService.findById(ID)).thenReturn(client);
                         when(clientMapper.toDto(client)).thenReturn(clientDto);
 
-                        mockMvc.perform(get("/api/clients/{id}", 1L))
+                        mockMvc.perform(get("/api/clients/{id}", ID))
                                         .andExpect(status().isOk())
                                         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                                        .andExpect(jsonPath("$.id").value(1))
+                                        .andExpect(jsonPath("$.id").value(ID.toString()))
                                         .andExpect(jsonPath("$.login").value("testuser"));
                 }
 
                 @Test
                 void getClientById_ShouldReturnNotFound_WhenDoesNotExist() throws Exception {
-                        when(clientService.findById(1L)).thenReturn(null);
+                        when(clientService.findById(ID)).thenReturn(null);
 
-                        mockMvc.perform(get("/api/clients/{id}", 1L))
+                        mockMvc.perform(get("/api/clients/{id}", ID))
                                         .andExpect(status().isNotFound());
                 }
         }
@@ -107,7 +109,7 @@ class ClientControllerTest {
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .content(objectMapper.writeValueAsString(request)))
                                         .andExpect(status().isCreated())
-                                        .andExpect(jsonPath("$.id").value(1))
+                                        .andExpect(jsonPath("$.id").value(ID.toString()))
                                         .andExpect(jsonPath("$.login").value("testuser"));
                 }
         }
@@ -117,29 +119,29 @@ class ClientControllerTest {
                 @Test
                 void updateClient_ShouldReturnUpdatedClient_WhenExists() throws Exception {
                         ClientRequest request = new ClientRequest(
-                                        1L, "testuser", "password", "John", "Doe", "Smith", "12345678A", "token");
+                                        ID, "testuser", "password", "John", "Doe", "Smith", "12345678A", "token");
 
                         when(clientMapper.toModel(any(ClientDto.class))).thenReturn(client);
-                        when(clientService.update(eq(1L), any(Client.class))).thenReturn(client);
+                        when(clientService.update(eq(ID), any(Client.class))).thenReturn(client);
                         when(clientMapper.toDto(client)).thenReturn(clientDto);
 
-                        mockMvc.perform(put("/api/clients/{id}", 1L)
+                        mockMvc.perform(put("/api/clients/{id}", ID)
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .content(objectMapper.writeValueAsString(request)))
                                         .andExpect(status().isOk())
-                                        .andExpect(jsonPath("$.id").value(1))
+                                        .andExpect(jsonPath("$.id").value(ID.toString()))
                                         .andExpect(jsonPath("$.login").value("testuser"));
                 }
 
                 @Test
                 void updateClient_ShouldReturnNotFound_WhenDoesNotExist() throws Exception {
                         ClientRequest request = new ClientRequest(
-                                        1L, "testuser", "password", "John", "Doe", "Smith", "12345678A", "token");
+                                        ID, "testuser", "password", "John", "Doe", "Smith", "12345678A", "token");
 
                         when(clientMapper.toModel(any(ClientDto.class))).thenReturn(client);
-                        when(clientService.update(eq(1L), any(Client.class))).thenReturn(null);
+                        when(clientService.update(eq(ID), any(Client.class))).thenReturn(null);
 
-                        mockMvc.perform(put("/api/clients/{id}", 1L)
+                        mockMvc.perform(put("/api/clients/{id}", ID)
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .content(objectMapper.writeValueAsString(request)))
                                         .andExpect(status().isNotFound());
@@ -150,9 +152,9 @@ class ClientControllerTest {
         class DeleteClientByIdTests {
                 @Test
                 void deleteClient_ShouldReturnNoContent() throws Exception {
-                        doNothing().when(clientService).delete(1L);
+                        doNothing().when(clientService).delete(ID);
 
-                        mockMvc.perform(delete("/api/clients/{id}", 1L))
+                        mockMvc.perform(delete("/api/clients/{id}", ID))
                                         .andExpect(status().isNoContent());
                 }
         }
