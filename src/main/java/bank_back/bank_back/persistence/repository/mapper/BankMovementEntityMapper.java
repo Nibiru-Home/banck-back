@@ -1,4 +1,4 @@
-package bank_back.bank_back.persistence.dao.jpa.mapper;
+package bank_back.bank_back.persistence.repository.mapper;
 
 import bank_back.bank_back.domain.model.BankMovement;
 import bank_back.bank_back.persistence.dao.jpa.entity.BankMovementJpaEntity;

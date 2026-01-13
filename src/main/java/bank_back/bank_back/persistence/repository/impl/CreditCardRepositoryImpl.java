@@ -1,4 +1,4 @@
-package bank_back.bank_back.persistence.dao.jpa.impl;
+package bank_back.bank_back.persistence.repository.impl;
 
 import bank_back.bank_back.domain.model.CreditCard;
 import bank_back.bank_back.domain.repository.CreditCardRepository;

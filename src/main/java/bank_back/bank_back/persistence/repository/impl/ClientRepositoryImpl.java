@@ -1,9 +1,10 @@
-package bank_back.bank_back.persistence.dao.jpa.impl;
+package bank_back.bank_back.persistence.repository.impl;
 
 import bank_back.bank_back.domain.model.Client;
 import bank_back.bank_back.domain.repository.ClientRepository;
 import bank_back.bank_back.persistence.dao.jpa.ClientJpaDao;
-import bank_back.bank_back.persistence.dao.jpa.mapper.ClientEntityMapper;
+import bank_back.bank_back.persistence.repository.mapper.ClientEntityMapper;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
