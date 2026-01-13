@@ -1,13 +1,18 @@
 package bank_back.bank_back.domain.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import bank_back.bank_back.domain.model.Client;
 
 public interface ClientService {
     List<Client> findAll();
-    Client findById(Long id);
+
+    Client findById(UUID id);
+
     Client create(Client client);
-    Client update(Long id, Client client);
-    void delete(Long id);
+
+    Client update(UUID id, Client client);
+
+    void delete(UUID id);
 }

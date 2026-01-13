@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import java.util.UUID;
+
 @Repository
 public class ClientRepositoryImpl implements ClientRepository {
 
@@ -29,7 +31,7 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
-    public Optional<Client> findById(Long id) {
+    public Optional<Client> findById(UUID id) {
         return clientJpaDao.findById(id)
                 .map(ClientEntityMapper.getInstance()::toModel);
     }
@@ -48,7 +50,7 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     @Override
     @Transactional
-    public void deleteById(Long id) {
+    public void deleteById(UUID id) {
         clientJpaDao.deleteById(id);
     }
 }

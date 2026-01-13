@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,7 +25,7 @@ class BankAccountMapperTest {
     @Test
     void toDto_ShouldMapAllFields_WhenModelIsNotNull() {
         Client client = new Client();
-        client.setId(1L);
+        client.setId(UUID.randomUUID());
         client.setLogin("testuser");
         client.setBankAccounts(null);
 

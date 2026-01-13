@@ -6,6 +6,7 @@ import bank_back.bank_back.domain.service.ClientService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -22,7 +23,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client findById(Long id) {
+    public Client findById(UUID id) {
         return clientRepository.findById(id).orElse(null);
     }
 
@@ -32,7 +33,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client update(Long id, Client client) {
+    public Client update(UUID id, Client client) {
         if (clientRepository.findById(id).isEmpty()) {
             return null;
         }
@@ -41,7 +42,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(UUID id) {
         clientRepository.deleteById(id);
     }
 }

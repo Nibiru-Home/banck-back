@@ -24,6 +24,12 @@ import bank_back.bank_back.persistence.repository.impl.BankAccountRepositoryImpl
 import bank_back.bank_back.persistence.repository.impl.BankMovementRepositoryImpl;
 import bank_back.bank_back.persistence.repository.impl.ClientRepositoryImpl;
 import bank_back.bank_back.persistence.repository.impl.CreditCardRepositoryImpl;
+import bank_back.bank_back.domain.repository.TokenRepository;
+import bank_back.bank_back.domain.service.TokenService;
+import bank_back.bank_back.domain.service.impl.TokenServiceImpl;
+import bank_back.bank_back.persistence.dao.jpa.TokenJpaDao;
+import bank_back.bank_back.persistence.dao.jpa.impl.TokenJpaDaoImpl;
+import bank_back.bank_back.persistence.repository.impl.TokenRepositoryImpl;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -76,6 +82,16 @@ public class SpringConfig {
         return new CreditCardRepositoryImpl(creditCardJpaDao);
     }
 
+    @Bean
+    public TokenRepository tokenRepository(TokenJpaDao tokenJpaDao) {
+        return new TokenRepositoryImpl(tokenJpaDao);
+    }
+
+    @Bean
+    public TokenJpaDao tokenJpaDao() {
+        return new TokenJpaDaoImpl();
+    }
+
     // Services
     @Bean
     public BankAccountService bankAccountService(BankAccountRepository bankAccountRepository) {
@@ -95,5 +111,10 @@ public class SpringConfig {
     @Bean
     public CreditCardService creditCardService(CreditCardRepository creditCardRepository) {
         return new CreditCardServiceImpl(creditCardRepository);
+    }
+
+    @Bean
+    public TokenService tokenService(TokenRepository tokenRepository) {
+        return new TokenServiceImpl(tokenRepository);
     }
 }

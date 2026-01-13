@@ -33,12 +33,10 @@ public class ClientEntityMapper {
         entity.setDNI(model.getDNI());
         entity.setApiToken(model.getApiToken());
 
-        if (model.getBankAccounts() != null) {
-            entity.setBankAccounts(model.getBankAccounts().stream()
-                    .map(BankAccountEntityMapper.getInstance()::toEntityWithoutClient)
-                    .peek(ba -> ba.setClient(entity))
-                    .collect(Collectors.toList()));
-        }
+        entity.setBankAccounts(model.getBankAccounts() != null
+                ? model.getBankAccounts().stream().map(BankAccountEntityMapper.getInstance()::toEntity)
+                        .collect(Collectors.toList())
+                : null);
 
         return entity;
     }

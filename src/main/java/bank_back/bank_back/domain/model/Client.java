@@ -3,10 +3,11 @@ package bank_back.bank_back.domain.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Client {
 
-    private Long id;
+    private UUID id;
     private String login;
     private String password;
     private String firstName;
@@ -30,11 +31,11 @@ public class Client {
         this.apiToken = apiToken;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

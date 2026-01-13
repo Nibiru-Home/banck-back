@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -27,86 +28,93 @@ class ClientServiceImplTest {
     @Test
     void findAll_ShouldReturnList() {
         Client client = new Client();
-        client.setId(1L);
+        UUID id = UUID.randomUUID();
+        client.setId(id);
         when(clientRepository.findAll()).thenReturn(Collections.singletonList(client));
 
         List<Client> result = clientService.findAll();
 
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals(1L, result.get(0).getId());
+        assertEquals(id, result.get(0).getId());
         verify(clientRepository).findAll();
     }
 
     @Test
     void findById_ShouldReturnClient_WhenExists() {
         Client client = new Client();
-        client.setId(1L);
-        when(clientRepository.findById(1L)).thenReturn(Optional.of(client));
+        UUID id = UUID.randomUUID();
+        client.setId(id);
+        when(clientRepository.findById(id)).thenReturn(Optional.of(client));
 
-        Client result = clientService.findById(1L);
+        Client result = clientService.findById(id);
 
         assertNotNull(result);
-        assertEquals(1L, result.getId());
-        verify(clientRepository).findById(1L);
+        assertEquals(id, result.getId());
+        verify(clientRepository).findById(id);
     }
 
     @Test
     void findById_ShouldReturnNull_WhenDoesNotExist() {
-        when(clientRepository.findById(1L)).thenReturn(Optional.empty());
+        UUID id = UUID.randomUUID();
+        when(clientRepository.findById(id)).thenReturn(Optional.empty());
 
-        Client result = clientService.findById(1L);
+        Client result = clientService.findById(id);
 
         assertNull(result);
-        verify(clientRepository).findById(1L);
+        verify(clientRepository).findById(id);
     }
 
     @Test
     void create_ShouldReturnSavedClient() {
         Client client = new Client();
-        client.setId(1L);
+        UUID id = UUID.randomUUID();
+        client.setId(id);
         when(clientRepository.save(client)).thenReturn(client);
 
         Client result = clientService.create(client);
 
         assertNotNull(result);
-        assertEquals(1L, result.getId());
+        assertEquals(id, result.getId());
         verify(clientRepository).save(client);
     }
 
     @Test
     void update_ShouldReturnUpdatedClient_WhenExists() {
         Client client = new Client();
-        client.setId(1L);
+        UUID id = UUID.randomUUID();
+        client.setId(id);
 
-        when(clientRepository.findById(1L)).thenReturn(Optional.of(client));
+        when(clientRepository.findById(id)).thenReturn(Optional.of(client));
         when(clientRepository.save(client)).thenReturn(client);
 
-        Client result = clientService.update(1L, client);
+        Client result = clientService.update(id, client);
 
         assertNotNull(result);
-        assertEquals(1L, result.getId());
-        verify(clientRepository).findById(1L);
+        assertEquals(id, result.getId());
+        verify(clientRepository).findById(id);
         verify(clientRepository).save(client);
     }
 
     @Test
     void update_ShouldReturnNull_WhenDoesNotExist() {
         Client client = new Client();
-        client.setId(1L);
-        when(clientRepository.findById(1L)).thenReturn(Optional.empty());
+        UUID id = UUID.randomUUID();
+        client.setId(id);
+        when(clientRepository.findById(id)).thenReturn(Optional.empty());
 
-        Client result = clientService.update(1L, client);
+        Client result = clientService.update(id, client);
 
         assertNull(result);
-        verify(clientRepository).findById(1L);
+        verify(clientRepository).findById(id);
         verify(clientRepository, never()).save(client);
     }
 
     @Test
     void delete_ShouldCallRepositoryDelete() {
-        clientService.delete(1L);
+        UUID id = UUID.randomUUID();
+        clientService.delete(id);
 
-        verify(clientRepository).deleteById(1L);
+        verify(clientRepository).deleteById(id);
     }
 }

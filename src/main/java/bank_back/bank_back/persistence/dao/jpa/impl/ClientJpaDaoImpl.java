@@ -14,6 +14,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+import java.util.UUID;
+
 @Repository
 public class ClientJpaDaoImpl implements ClientJpaDao {
 
@@ -37,7 +39,7 @@ public class ClientJpaDaoImpl implements ClientJpaDao {
     }
 
     @Override
-    public Optional<ClientJpaEntity> findById(Long id) {
+    public Optional<ClientJpaEntity> findById(UUID id) {
         return Optional.ofNullable(entityManager.find(ClientJpaEntity.class, id));
     }
 
@@ -53,7 +55,7 @@ public class ClientJpaDaoImpl implements ClientJpaDao {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(UUID id) {
         ClientJpaEntity entity = entityManager.find(ClientJpaEntity.class, id);
         if (entity != null) {
             entityManager.remove(entity);

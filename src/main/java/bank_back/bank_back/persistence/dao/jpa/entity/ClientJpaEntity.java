@@ -1,10 +1,12 @@
 package bank_back.bank_back.persistence.dao.jpa.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import java.util.UUID;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
 import java.util.ArrayList;
@@ -15,8 +17,9 @@ import java.util.List;
 public class ClientJpaEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id", nullable = false)
+    @JdbcTypeCode(SqlTypes.CHAR)
+    private UUID id;
     private String login;
     private String password;
     private String firstName;
@@ -31,7 +34,8 @@ public class ClientJpaEntity {
     public ClientJpaEntity() {
     }
 
-    public ClientJpaEntity(Long id, String login, String password, String firstName, String lastName, String secondLastName, String DNI, String apiToken) {
+    public ClientJpaEntity(UUID id, String login, String password, String firstName, String lastName,
+            String secondLastName, String DNI, String apiToken) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -42,11 +46,11 @@ public class ClientJpaEntity {
         this.apiToken = apiToken;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
