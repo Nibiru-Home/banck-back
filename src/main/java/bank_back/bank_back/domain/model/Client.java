@@ -14,7 +14,6 @@ public class Client {
     private String lastName;
     private String secondLastName;
     private String DNI;
-    private String apiToken;
     private List<BankAccount> bankAccounts = new ArrayList<>();
 
     public Client() {
@@ -28,7 +27,6 @@ public class Client {
         this.lastName = lastName;
         this.secondLastName = secondLastName;
         this.DNI = DNI;
-        this.apiToken = apiToken;
     }
 
     public UUID getId() {
@@ -87,14 +85,6 @@ public class Client {
         this.DNI = DNI;
     }
 
-    public String getApiToken() {
-        return apiToken;
-    }
-
-    public void setApiToken(String apiToken) {
-        this.apiToken = apiToken;
-    }
-
     public List<BankAccount> getBankAccounts() {
         return bankAccounts;
     }
@@ -117,13 +107,12 @@ public class Client {
                 Objects.equals(firstName, client.firstName) &&
                 Objects.equals(lastName, client.lastName) &&
                 Objects.equals(secondLastName, client.secondLastName) &&
-                Objects.equals(DNI, client.DNI) &&
-                Objects.equals(apiToken, client.apiToken);
+                Objects.equals(DNI, client.DNI);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, firstName, lastName, secondLastName, DNI, apiToken);
+        return Objects.hash(id, login, password, firstName, lastName, secondLastName, DNI);
     }
 
     @Override
@@ -136,7 +125,6 @@ public class Client {
                 ", lastName='" + lastName + '\'' +
                 ", secondLastName='" + secondLastName + '\'' +
                 ", DNI='" + DNI + '\'' +
-                ", apiToken='" + apiToken + '\'' +
                 '}';
     }
 }

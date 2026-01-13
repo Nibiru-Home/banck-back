@@ -7,15 +7,15 @@ public class Token {
 
     private UUID id;
     private String value;
-    private UUID userId;
+    private UUID clientId;
     private Instant createdAt;
 
 
-    public Token(UUID id, String value, UUID userId,
+    public Token(UUID id, String value, UUID clientId,
                  Instant createdAt) {
         this.id = id;
         this.value = value;
-        this.userId = userId;
+        this.clientId = clientId;
         this.createdAt = createdAt;
     }
 
@@ -39,12 +39,12 @@ public class Token {
         this.value = value;
     }
 
-    public UUID getUserId() {
-        return userId;
+    public UUID getClientId() {
+        return clientId;
     }
 
-    public void setUserId(UUID userId) {
-        this.userId = userId;
+    public void setClientId(UUID clientId) {
+        this.clientId = clientId;
     }
 
     public Instant getCreatedAt() {
@@ -57,7 +57,7 @@ public class Token {
 
     @Override
     public String toString() {
-        return "Token [id=" + id + ", value=" + value + ", userId=" + userId + ", createdAt=" + createdAt + "]";
+        return "Token [id=" + id + ", value=" + value + ", clientId=" + clientId + ", createdAt=" + createdAt + "]";
     }
 }
 
