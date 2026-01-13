@@ -1,56 +1,57 @@
 package bank_back.bank_back.controller.mapper;
 
-import org.springframework.stereotype.Component;
-
 import bank_back.bank_back.domain.dto.BankAccountDto;
-import bank_back.bank_back.domain.model.BankAccount;
+import bank_back.bank_back.controller.webmodel.request.BankAccountRequest;
+import bank_back.bank_back.controller.webmodel.response.BankAccountResponse;
 
-import java.util.stream.Collectors;
-
-@Component
 public class BankAccountMapper {
+    private static BankAccountMapper INSTANCE;
 
-    private final BankMovementMapper bankMovementMapper;
-    private final CreditCardMapper creditCardMapper;
-    private final ClientMapper clientMapper;
-
-    public BankAccountMapper(BankMovementMapper bankMovementMapper, CreditCardMapper creditCardMapper,
-            @org.springframework.context.annotation.Lazy ClientMapper clientMapper) {
-        this.bankMovementMapper = bankMovementMapper;
-        this.creditCardMapper = creditCardMapper;
-        this.clientMapper = clientMapper;
+    private BankAccountMapper() {
     }
 
-    public BankAccountDto toDto(BankAccount model) {
-        if (model == null) {
+    public static BankAccountMapper getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new BankAccountMapper();
+        }
+        return INSTANCE;
+    }
+
+    public BankAccountDto bankAccountRequestToBankAccountDto(BankAccountRequest bankAccountRequest) {
+        if (bankAccountRequest == null) {
             return null;
         }
+
         return new BankAccountDto(
+                bankAccountRequest.id(),
+                bankAccountRequest.balance(),
+                bankAccountRequest.iban(),
                 null,
-                model.getBalance(),
-                model.getIban(),
-                clientMapper.toDto(model.getClient()),
-                model.getMovements() != null
-                        ? model.getMovements().stream().map(bankMovementMapper::toDto).collect(Collectors.toList())
-                        : null,
-                model.getCreditCards() != null
-                        ? model.getCreditCards().stream().map(creditCardMapper::toDto).collect(Collectors.toList())
-                        : null);
+                null,
+                null);
     }
 
-    public BankAccount toModel(BankAccountDto dto) {
-        if (dto == null) {
+    public BankAccountResponse bankAccountDtoToBankAccountResponse(BankAccountDto bankAccountDto) {
+        if (bankAccountDto == null) {
             return null;
         }
-        BankAccount model = new BankAccount();
-        model.setBalance(dto.balance());
-        model.setIban(dto.iban());
-        model.setMovements(dto.movements() != null
-                ? dto.movements().stream().map(bankMovementMapper::toModel).collect(Collectors.toList())
-                : null);
-        model.setCreditCards(dto.creditCards() != null
-                ? dto.creditCards().stream().map(creditCardMapper::toModel).collect(Collectors.toList())
-                : null);
-        return model;
+
+        return new BankAccountResponse(
+                bankAccountDto.id(),
+                bankAccountDto.balance(),
+                bankAccountDto.iban(),
+                bankAccountDto.client() != null
+                        ? ClientMapper.getInstance().clientDtoToClientResponse(bankAccountDto.client())
+                        : null,
+                bankAccountDto.movements() != null
+                        ? bankAccountDto.movements().stream()
+                                .map(BankMovementMapper.getInstance()::bankMovementDtoToBankMovementResponse)
+                                .toList()
+                        : null,
+                bankAccountDto.creditCards() != null
+                        ? bankAccountDto.creditCards().stream()
+                                .map(CreditCardMapper.getInstance()::creditCardDtoToCreditCardResponse)
+                                .toList()
+                        : null);
     }
 }

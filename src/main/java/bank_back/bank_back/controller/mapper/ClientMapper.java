@@ -1,54 +1,56 @@
 package bank_back.bank_back.controller.mapper;
 
-import org.springframework.stereotype.Component;
-
 import bank_back.bank_back.domain.dto.ClientDto;
-import bank_back.bank_back.domain.model.Client;
+import bank_back.bank_back.controller.webmodel.request.ClientRequest;
+import bank_back.bank_back.controller.webmodel.response.ClientResponse;
 
-import java.util.stream.Collectors;
-
-@Component
 public class ClientMapper {
+    private static ClientMapper INSTANCE;
 
-    private final BankAccountMapper bankAccountMapper;
-
-    public ClientMapper(BankAccountMapper bankAccountMapper) {
-        this.bankAccountMapper = bankAccountMapper;
+    private ClientMapper() {
     }
 
-    public ClientDto toDto(Client model) {
-        if (model == null) {
+    public static ClientMapper getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new ClientMapper();
+        }
+        return INSTANCE;
+    }
+
+    public ClientDto clientRequestToClientDto(ClientRequest clientRequest) {
+        if (clientRequest == null) {
             return null;
         }
+
         return new ClientDto(
-                model.getId(),
-                model.getLogin(),
-                model.getPassword(),
-                model.getFirstName(),
-                model.getLastName(),
-                model.getSecondLastName(),
-                model.getDNI(),
-                model.getApiToken(),
-                model.getBankAccounts() != null
-                        ? model.getBankAccounts().stream().map(bankAccountMapper::toDto).collect(Collectors.toList())
-                        : null);
+                clientRequest.id(),
+                clientRequest.login(),
+                clientRequest.password(),
+                clientRequest.firstName(),
+                clientRequest.lastName(),
+                clientRequest.secondLastName(),
+                clientRequest.DNI(),
+                clientRequest.apiToken(),
+                null);
     }
 
-    public Client toModel(ClientDto dto) {
-        if (dto == null) {
+    public ClientResponse clientDtoToClientResponse(ClientDto clientDto) {
+        if (clientDto == null) {
             return null;
         }
-        Client model = new Client();
-        model.setId(dto.id());
-        model.setLogin(dto.login());
-        model.setFirstName(dto.firstName());
-        model.setLastName(dto.lastName());
-        model.setSecondLastName(dto.secondLastName());
-        model.setDNI(dto.DNI());
 
-        model.setBankAccounts(dto.bankAccounts() != null
-                ? dto.bankAccounts().stream().map(bankAccountMapper::toModel).collect(Collectors.toList())
-                : null);
-        return model;
+        return new ClientResponse(
+                clientDto.id(),
+                clientDto.login(),
+                clientDto.firstName(),
+                clientDto.lastName(),
+                clientDto.secondLastName(),
+                clientDto.DNI(),
+                clientDto.apiToken(),
+                clientDto.bankAccounts() != null
+                        ? clientDto.bankAccounts().stream()
+                                .map(BankAccountMapper.getInstance()::bankAccountDtoToBankAccountResponse)
+                                .toList()
+                        : null);
     }
 }

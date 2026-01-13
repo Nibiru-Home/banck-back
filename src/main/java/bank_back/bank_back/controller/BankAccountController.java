@@ -1,7 +1,9 @@
 package bank_back.bank_back.controller;
 
-import bank_back.bank_back.domain.dto.BankAccountDto;
 import bank_back.bank_back.controller.mapper.BankAccountMapper;
+import bank_back.bank_back.controller.webmodel.request.BankAccountRequest;
+import bank_back.bank_back.controller.webmodel.response.BankAccountResponse;
+import bank_back.bank_back.domain.dto.BankAccountDto;
 import bank_back.bank_back.domain.model.BankAccount;
 import bank_back.bank_back.domain.service.BankAccountService;
 import org.springframework.http.HttpStatus;
@@ -9,53 +11,60 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/bank-accounts")
 public class BankAccountController {
 
     private final BankAccountService bankAccountService;
-    private final BankAccountMapper bankAccountMapper;
+    private final bank_back.bank_back.domain.mapper.BankAccountMapper bankAccountDomainMapper;
 
-    public BankAccountController(BankAccountService bankAccountService, BankAccountMapper bankAccountMapper) {
+    public BankAccountController(BankAccountService bankAccountService,
+            bank_back.bank_back.domain.mapper.BankAccountMapper bankAccountDomainMapper) {
         this.bankAccountService = bankAccountService;
-        this.bankAccountMapper = bankAccountMapper;
+        this.bankAccountDomainMapper = bankAccountDomainMapper;
     }
 
     @GetMapping
-    public ResponseEntity<List<BankAccountDto>> findAll() {
+    public ResponseEntity<List<BankAccountResponse>> findAll() {
         List<BankAccount> bankAccounts = bankAccountService.findAll();
-        List<BankAccountDto> dtos = bankAccounts.stream()
-                .map(bankAccountMapper::toDto)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(dtos);
+        List<BankAccountResponse> responses = bankAccounts.stream()
+                .map(bankAccountDomainMapper::toDto)
+                .map(BankAccountMapper.getInstance()::bankAccountDtoToBankAccountResponse)
+                .toList();
+        return ResponseEntity.ok(responses);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BankAccountDto> findById(@PathVariable Long id) {
+    public ResponseEntity<BankAccountResponse> findById(@PathVariable Long id) {
         BankAccount bankAccount = bankAccountService.findById(id);
         if (bankAccount == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(bankAccountMapper.toDto(bankAccount));
+        BankAccountDto dto = bankAccountDomainMapper.toDto(bankAccount);
+        return ResponseEntity.ok(BankAccountMapper.getInstance().bankAccountDtoToBankAccountResponse(dto));
     }
 
     @PostMapping
-    public ResponseEntity<BankAccountDto> create(@RequestBody BankAccountDto dto) {
-        BankAccount bankAccount = bankAccountMapper.toModel(dto);
+    public ResponseEntity<BankAccountResponse> create(@RequestBody BankAccountRequest request) {
+        BankAccountDto dto = BankAccountMapper.getInstance().bankAccountRequestToBankAccountDto(request);
+        BankAccount bankAccount = bankAccountDomainMapper.toModel(dto);
         BankAccount created = bankAccountService.create(bankAccount);
-        return ResponseEntity.status(HttpStatus.CREATED).body(bankAccountMapper.toDto(created));
+        BankAccountDto createdDto = bankAccountDomainMapper.toDto(created);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(BankAccountMapper.getInstance().bankAccountDtoToBankAccountResponse(createdDto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BankAccountDto> update(@PathVariable Long id, @RequestBody BankAccountDto dto) {
-        BankAccount bankAccount = bankAccountMapper.toModel(dto);
+    public ResponseEntity<BankAccountResponse> update(@PathVariable Long id, @RequestBody BankAccountRequest request) {
+        BankAccountDto dto = BankAccountMapper.getInstance().bankAccountRequestToBankAccountDto(request);
+        BankAccount bankAccount = bankAccountDomainMapper.toModel(dto);
         BankAccount updated = bankAccountService.update(id, bankAccount);
         if (updated == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(bankAccountMapper.toDto(updated));
+        BankAccountDto updatedDto = bankAccountDomainMapper.toDto(updated);
+        return ResponseEntity.ok(BankAccountMapper.getInstance().bankAccountDtoToBankAccountResponse(updatedDto));
     }
 
     @DeleteMapping("/{id}")

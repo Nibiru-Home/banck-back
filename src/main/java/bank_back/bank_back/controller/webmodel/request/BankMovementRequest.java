@@ -8,11 +8,12 @@ import bank_back.bank_back.domain.model.MovementOrigin;
 import bank_back.bank_back.domain.model.MovementType;
 
 public record BankMovementRequest(
-        @NotNull BigDecimal amount,
-        @NotNull MovementType movementType,
-        @NotNull MovementOrigin movementOrigin,
-        String concept,
-        @NotNull LocalDateTime timestamp,
-        Long originCreditCardId,
-        Long destinationBankAccountId) {
+                Long id,
+                @NotNull BigDecimal amount,
+                @NotNull MovementType movementType,
+                @NotNull MovementOrigin movementOrigin,
+                String concept,
+                @NotNull LocalDateTime timestamp,
+                CreditCardRequest originCreditCard,
+                BankAccountRequest destinationBankAccount) {
 }

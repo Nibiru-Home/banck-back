@@ -1,35 +1,45 @@
 package bank_back.bank_back.controller.mapper;
 
-import org.springframework.stereotype.Component;
-
 import bank_back.bank_back.domain.dto.CreditCardDto;
-import bank_back.bank_back.domain.model.CreditCard;
+import bank_back.bank_back.controller.webmodel.request.CreditCardRequest;
+import bank_back.bank_back.controller.webmodel.response.CreditCardResponse;
 
-@Component
 public class CreditCardMapper {
+    private static CreditCardMapper INSTANCE;
 
-    public CreditCardDto toDto(CreditCard model) {
-        if (model == null) {
-            return null;
-        }
-        return new CreditCardDto(
-                model.getId(),
-                model.getNumber(),
-                model.getExpirationDate(),
-                model.getCvv(),
-                model.getName());
+    private CreditCardMapper() {
     }
 
-    public CreditCard toModel(CreditCardDto dto) {
-        if (dto == null) {
+    public static CreditCardMapper getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new CreditCardMapper();
+        }
+        return INSTANCE;
+    }
+
+    public CreditCardDto creditCardRequestToCreditCardDto(CreditCardRequest creditCardRequest) {
+        if (creditCardRequest == null) {
             return null;
         }
-        CreditCard model = new CreditCard();
-        model.setId(dto.id());
-        model.setNumber(dto.number());
-        model.setExpirationDate(dto.expirationDate());
-        model.setCvv(dto.cvv());
-        model.setName(dto.name());
-        return model;
+
+        return new CreditCardDto(
+                creditCardRequest.id(),
+                creditCardRequest.number(),
+                creditCardRequest.expirationDate(),
+                creditCardRequest.cvv(),
+                creditCardRequest.name());
+    }
+
+    public CreditCardResponse creditCardDtoToCreditCardResponse(CreditCardDto creditCardDto) {
+        if (creditCardDto == null) {
+            return null;
+        }
+
+        return new CreditCardResponse(
+                creditCardDto.id(),
+                creditCardDto.number(),
+                creditCardDto.expirationDate(),
+                creditCardDto.cvv(),
+                creditCardDto.name());
     }
 }
