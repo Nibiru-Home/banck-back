@@ -2,17 +2,62 @@ package bank_back.bank_back.persistence.dao.jpa.impl;
 
 import bank_back.bank_back.persistence.dao.jpa.CreditCardJpaDao;
 import bank_back.bank_back.persistence.dao.jpa.entity.CreditCardJpaEntity;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class CreditCardJpaDaoImpl extends GenericJpaDaoImpl<CreditCardJpaEntity, Long> implements CreditCardJpaDao {
+public class CreditCardJpaDaoImpl implements CreditCardJpaDao {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public CreditCardJpaDaoImpl() {
-        super(CreditCardJpaEntity.class);
+    }
+
+    @Override
+    public List<CreditCardJpaEntity> findAll(int page, int size) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<CreditCardJpaEntity> cq = cb.createQuery(CreditCardJpaEntity.class);
+        Root<CreditCardJpaEntity> rootEntry = cq.from(CreditCardJpaEntity.class);
+        CriteriaQuery<CreditCardJpaEntity> all = cq.select(rootEntry);
+
+        return entityManager.createQuery(all)
+                .setFirstResult(page * size)
+                .setMaxResults(size)
+                .getResultList();
+    }
+
+    @Override
+    public Optional<CreditCardJpaEntity> findById(Long id) {
+        return Optional.ofNullable(entityManager.find(CreditCardJpaEntity.class, id));
+    }
+
+    @Override
+    public CreditCardJpaEntity insert(CreditCardJpaEntity jpaEntity) {
+        entityManager.persist(jpaEntity);
+        return jpaEntity;
+    }
+
+    @Override
+    public CreditCardJpaEntity update(CreditCardJpaEntity jpaEntity) {
+        return entityManager.merge(jpaEntity);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        CreditCardJpaEntity entity = entityManager.find(CreditCardJpaEntity.class, id);
+        if (entity != null) {
+            entityManager.remove(entity);
+        }
     }
 
     @Override

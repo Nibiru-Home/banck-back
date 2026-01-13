@@ -2,17 +2,62 @@ package bank_back.bank_back.persistence.dao.jpa.impl;
 
 import bank_back.bank_back.persistence.dao.jpa.BankAccountJpaDao;
 import bank_back.bank_back.persistence.dao.jpa.entity.BankAccountJpaEntity;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class BankAccountJpaDaoImpl extends GenericJpaDaoImpl<BankAccountJpaEntity, Long> implements BankAccountJpaDao {
+public class BankAccountJpaDaoImpl implements BankAccountJpaDao {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public BankAccountJpaDaoImpl() {
-        super(BankAccountJpaEntity.class);
+    }
+
+    @Override
+    public List<BankAccountJpaEntity> findAll(int page, int size) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<BankAccountJpaEntity> cq = cb.createQuery(BankAccountJpaEntity.class);
+        Root<BankAccountJpaEntity> rootEntry = cq.from(BankAccountJpaEntity.class);
+        CriteriaQuery<BankAccountJpaEntity> all = cq.select(rootEntry);
+
+        return entityManager.createQuery(all)
+                .setFirstResult(page * size)
+                .setMaxResults(size)
+                .getResultList();
+    }
+
+    @Override
+    public Optional<BankAccountJpaEntity> findById(Long id) {
+        return Optional.ofNullable(entityManager.find(BankAccountJpaEntity.class, id));
+    }
+
+    @Override
+    public BankAccountJpaEntity insert(BankAccountJpaEntity jpaEntity) {
+        entityManager.persist(jpaEntity);
+        return jpaEntity;
+    }
+
+    @Override
+    public BankAccountJpaEntity update(BankAccountJpaEntity jpaEntity) {
+        return entityManager.merge(jpaEntity);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        BankAccountJpaEntity entity = entityManager.find(BankAccountJpaEntity.class, id);
+        if (entity != null) {
+            entityManager.remove(entity);
+        }
     }
 
     @Override
