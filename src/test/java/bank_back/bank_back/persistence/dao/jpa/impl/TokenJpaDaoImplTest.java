@@ -3,7 +3,6 @@ package bank_back.bank_back.persistence.dao.jpa.impl;
 import bank_back.bank_back.persistence.dao.jpa.entity.TokenJpaEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -16,22 +15,17 @@ import static org.mockito.Mockito.*;
 
 class TokenJpaDaoImplTest {
 
-    private EntityManager entityManager;
-
-    private TypedQuery<TokenJpaEntity> typedQuery;
-
-    private TokenJpaDaoImpl dao;
-
-    @BeforeEach
-    void setUp() {
-        entityManager = mock(EntityManager.class);
-        typedQuery = mock(TypedQuery.class);
-        dao = new TokenJpaDaoImpl();
+    private TokenJpaDaoImpl createDao(EntityManager entityManager) {
+        TokenJpaDaoImpl dao = new TokenJpaDaoImpl();
         ReflectionTestUtils.setField(dao, "entityManager", entityManager);
+        return dao;
     }
 
     @Test
     void findAll_ShouldReturnResults() {
+        EntityManager entityManager = mock(EntityManager.class);
+        TypedQuery<TokenJpaEntity> typedQuery = mock(TypedQuery.class);
+        TokenJpaDaoImpl dao = createDao(entityManager);
         TokenJpaEntity entity = new TokenJpaEntity();
 
         when(entityManager.createQuery("SELECT t FROM TokenJpaEntity t", TokenJpaEntity.class))
@@ -49,6 +43,8 @@ class TokenJpaDaoImplTest {
 
     @Test
     void findById_ShouldReturnOptional_WhenEntityExists() {
+        EntityManager entityManager = mock(EntityManager.class);
+        TokenJpaDaoImpl dao = createDao(entityManager);
         UUID id = UUID.randomUUID();
         TokenJpaEntity entity = new TokenJpaEntity();
         entity.setId(id);
@@ -63,6 +59,8 @@ class TokenJpaDaoImplTest {
 
     @Test
     void findById_ShouldReturnEmpty_WhenEntityMissing() {
+        EntityManager entityManager = mock(EntityManager.class);
+        TokenJpaDaoImpl dao = createDao(entityManager);
         UUID id = UUID.randomUUID();
         when(entityManager.find(TokenJpaEntity.class, id)).thenReturn(null);
 
@@ -73,6 +71,8 @@ class TokenJpaDaoImplTest {
 
     @Test
     void insert_ShouldPersistEntity() {
+        EntityManager entityManager = mock(EntityManager.class);
+        TokenJpaDaoImpl dao = createDao(entityManager);
         TokenJpaEntity entity = new TokenJpaEntity();
 
         TokenJpaEntity result = dao.insert(entity);
@@ -83,6 +83,8 @@ class TokenJpaDaoImplTest {
 
     @Test
     void update_ShouldMergeEntity() {
+        EntityManager entityManager = mock(EntityManager.class);
+        TokenJpaDaoImpl dao = createDao(entityManager);
         TokenJpaEntity entity = new TokenJpaEntity();
         TokenJpaEntity merged = new TokenJpaEntity();
 
@@ -96,6 +98,8 @@ class TokenJpaDaoImplTest {
 
     @Test
     void deleteById_ShouldRemoveEntity_WhenFound() {
+        EntityManager entityManager = mock(EntityManager.class);
+        TokenJpaDaoImpl dao = createDao(entityManager);
         UUID id = UUID.randomUUID();
         TokenJpaEntity entity = new TokenJpaEntity();
         entity.setId(id);
@@ -109,6 +113,8 @@ class TokenJpaDaoImplTest {
 
     @Test
     void deleteById_ShouldNotRemove_WhenMissing() {
+        EntityManager entityManager = mock(EntityManager.class);
+        TokenJpaDaoImpl dao = createDao(entityManager);
         UUID id = UUID.randomUUID();
         when(entityManager.find(TokenJpaEntity.class, id)).thenReturn(null);
 

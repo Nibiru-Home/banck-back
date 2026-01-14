@@ -3,7 +3,6 @@ package bank_back.bank_back.persistence.dao.jpa.impl;
 import bank_back.bank_back.persistence.dao.jpa.entity.BankAccountJpaEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -15,22 +14,17 @@ import static org.mockito.Mockito.*;
 
 class BankAccountJpaDaoImplTest {
 
-    private EntityManager entityManager;
-
-    private TypedQuery<BankAccountJpaEntity> typedQuery;
-
-    private BankAccountJpaDaoImpl dao;
-
-    @BeforeEach
-    void setUp() {
-        entityManager = mock(EntityManager.class);
-        typedQuery = mock(TypedQuery.class);
-        dao = new BankAccountJpaDaoImpl();
+    private BankAccountJpaDaoImpl createDao(EntityManager entityManager) {
+        BankAccountJpaDaoImpl dao = new BankAccountJpaDaoImpl();
         ReflectionTestUtils.setField(dao, "entityManager", entityManager);
+        return dao;
     }
 
     @Test
     void findAll_ShouldReturnResults() {
+        EntityManager entityManager = mock(EntityManager.class);
+        TypedQuery<BankAccountJpaEntity> typedQuery = mock(TypedQuery.class);
+        BankAccountJpaDaoImpl dao = createDao(entityManager);
         BankAccountJpaEntity entity = new BankAccountJpaEntity();
 
         when(entityManager.createQuery("SELECT b FROM BankAccountJpaEntity b", BankAccountJpaEntity.class))
@@ -48,6 +42,8 @@ class BankAccountJpaDaoImplTest {
 
     @Test
     void findById_ShouldReturnOptional_WhenEntityExists() {
+        EntityManager entityManager = mock(EntityManager.class);
+        BankAccountJpaDaoImpl dao = createDao(entityManager);
         BankAccountJpaEntity entity = new BankAccountJpaEntity();
         entity.setId(1L);
 
@@ -61,6 +57,8 @@ class BankAccountJpaDaoImplTest {
 
     @Test
     void findById_ShouldReturnEmpty_WhenEntityMissing() {
+        EntityManager entityManager = mock(EntityManager.class);
+        BankAccountJpaDaoImpl dao = createDao(entityManager);
         when(entityManager.find(BankAccountJpaEntity.class, 9L)).thenReturn(null);
 
         Optional<BankAccountJpaEntity> result = dao.findById(9L);
@@ -70,6 +68,8 @@ class BankAccountJpaDaoImplTest {
 
     @Test
     void insert_ShouldPersistEntity() {
+        EntityManager entityManager = mock(EntityManager.class);
+        BankAccountJpaDaoImpl dao = createDao(entityManager);
         BankAccountJpaEntity entity = new BankAccountJpaEntity();
 
         BankAccountJpaEntity result = dao.insert(entity);
@@ -80,6 +80,8 @@ class BankAccountJpaDaoImplTest {
 
     @Test
     void update_ShouldMergeEntity() {
+        EntityManager entityManager = mock(EntityManager.class);
+        BankAccountJpaDaoImpl dao = createDao(entityManager);
         BankAccountJpaEntity entity = new BankAccountJpaEntity();
         BankAccountJpaEntity merged = new BankAccountJpaEntity();
 
@@ -93,6 +95,8 @@ class BankAccountJpaDaoImplTest {
 
     @Test
     void deleteById_ShouldRemoveEntity_WhenFound() {
+        EntityManager entityManager = mock(EntityManager.class);
+        BankAccountJpaDaoImpl dao = createDao(entityManager);
         BankAccountJpaEntity entity = new BankAccountJpaEntity();
         entity.setId(3L);
 
@@ -105,6 +109,8 @@ class BankAccountJpaDaoImplTest {
 
     @Test
     void deleteById_ShouldNotRemove_WhenMissing() {
+        EntityManager entityManager = mock(EntityManager.class);
+        BankAccountJpaDaoImpl dao = createDao(entityManager);
         when(entityManager.find(BankAccountJpaEntity.class, 4L)).thenReturn(null);
 
         dao.deleteById(4L);

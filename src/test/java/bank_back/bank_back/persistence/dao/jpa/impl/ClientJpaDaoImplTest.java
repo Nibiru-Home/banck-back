@@ -3,7 +3,6 @@ package bank_back.bank_back.persistence.dao.jpa.impl;
 import bank_back.bank_back.persistence.dao.jpa.entity.ClientJpaEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -16,22 +15,17 @@ import static org.mockito.Mockito.*;
 
 class ClientJpaDaoImplTest {
 
-    private EntityManager entityManager;
-
-    private TypedQuery<ClientJpaEntity> typedQuery;
-
-    private ClientJpaDaoImpl dao;
-
-    @BeforeEach
-    void setUp() {
-        entityManager = mock(EntityManager.class);
-        typedQuery = mock(TypedQuery.class);
-        dao = new ClientJpaDaoImpl();
+    private ClientJpaDaoImpl createDao(EntityManager entityManager) {
+        ClientJpaDaoImpl dao = new ClientJpaDaoImpl();
         ReflectionTestUtils.setField(dao, "entityManager", entityManager);
+        return dao;
     }
 
     @Test
     void findAll_ShouldReturnResults() {
+        EntityManager entityManager = mock(EntityManager.class);
+        TypedQuery<ClientJpaEntity> typedQuery = mock(TypedQuery.class);
+        ClientJpaDaoImpl dao = createDao(entityManager);
         ClientJpaEntity entity = new ClientJpaEntity();
 
         when(entityManager.createQuery("SELECT c FROM ClientJpaEntity c", ClientJpaEntity.class))
@@ -49,6 +43,8 @@ class ClientJpaDaoImplTest {
 
     @Test
     void findById_ShouldReturnOptional_WhenEntityExists() {
+        EntityManager entityManager = mock(EntityManager.class);
+        ClientJpaDaoImpl dao = createDao(entityManager);
         UUID id = UUID.randomUUID();
         ClientJpaEntity entity = new ClientJpaEntity();
         entity.setId(id);
@@ -63,6 +59,8 @@ class ClientJpaDaoImplTest {
 
     @Test
     void findById_ShouldReturnEmpty_WhenEntityMissing() {
+        EntityManager entityManager = mock(EntityManager.class);
+        ClientJpaDaoImpl dao = createDao(entityManager);
         UUID id = UUID.randomUUID();
         when(entityManager.find(ClientJpaEntity.class, id)).thenReturn(null);
 
@@ -73,6 +71,8 @@ class ClientJpaDaoImplTest {
 
     @Test
     void insert_ShouldPersistEntity() {
+        EntityManager entityManager = mock(EntityManager.class);
+        ClientJpaDaoImpl dao = createDao(entityManager);
         ClientJpaEntity entity = new ClientJpaEntity();
 
         ClientJpaEntity result = dao.insert(entity);
@@ -83,6 +83,8 @@ class ClientJpaDaoImplTest {
 
     @Test
     void update_ShouldMergeEntity() {
+        EntityManager entityManager = mock(EntityManager.class);
+        ClientJpaDaoImpl dao = createDao(entityManager);
         ClientJpaEntity entity = new ClientJpaEntity();
         ClientJpaEntity merged = new ClientJpaEntity();
 
@@ -96,6 +98,8 @@ class ClientJpaDaoImplTest {
 
     @Test
     void deleteById_ShouldRemoveEntity_WhenFound() {
+        EntityManager entityManager = mock(EntityManager.class);
+        ClientJpaDaoImpl dao = createDao(entityManager);
         UUID id = UUID.randomUUID();
         ClientJpaEntity entity = new ClientJpaEntity();
         entity.setId(id);
@@ -109,6 +113,8 @@ class ClientJpaDaoImplTest {
 
     @Test
     void deleteById_ShouldNotRemove_WhenMissing() {
+        EntityManager entityManager = mock(EntityManager.class);
+        ClientJpaDaoImpl dao = createDao(entityManager);
         UUID id = UUID.randomUUID();
         when(entityManager.find(ClientJpaEntity.class, id)).thenReturn(null);
 

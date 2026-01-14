@@ -3,7 +3,6 @@ package bank_back.bank_back.persistence.dao.jpa.impl;
 import bank_back.bank_back.persistence.dao.jpa.entity.CreditCardJpaEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -15,22 +14,17 @@ import static org.mockito.Mockito.*;
 
 class CreditCardJpaDaoImplTest {
 
-    private EntityManager entityManager;
-
-    private TypedQuery<CreditCardJpaEntity> typedQuery;
-
-    private CreditCardJpaDaoImpl dao;
-
-    @BeforeEach
-    void setUp() {
-        entityManager = mock(EntityManager.class);
-        typedQuery = mock(TypedQuery.class);
-        dao = new CreditCardJpaDaoImpl();
+    private CreditCardJpaDaoImpl createDao(EntityManager entityManager) {
+        CreditCardJpaDaoImpl dao = new CreditCardJpaDaoImpl();
         ReflectionTestUtils.setField(dao, "entityManager", entityManager);
+        return dao;
     }
 
     @Test
     void findAll_ShouldReturnResults() {
+        EntityManager entityManager = mock(EntityManager.class);
+        TypedQuery<CreditCardJpaEntity> typedQuery = mock(TypedQuery.class);
+        CreditCardJpaDaoImpl dao = createDao(entityManager);
         CreditCardJpaEntity entity = new CreditCardJpaEntity();
 
         when(entityManager.createQuery("SELECT c FROM CreditCardJpaEntity c", CreditCardJpaEntity.class))
@@ -48,6 +42,8 @@ class CreditCardJpaDaoImplTest {
 
     @Test
     void findById_ShouldReturnOptional_WhenEntityExists() {
+        EntityManager entityManager = mock(EntityManager.class);
+        CreditCardJpaDaoImpl dao = createDao(entityManager);
         CreditCardJpaEntity entity = new CreditCardJpaEntity();
         entity.setId(1L);
 
@@ -61,6 +57,8 @@ class CreditCardJpaDaoImplTest {
 
     @Test
     void findById_ShouldReturnEmpty_WhenEntityMissing() {
+        EntityManager entityManager = mock(EntityManager.class);
+        CreditCardJpaDaoImpl dao = createDao(entityManager);
         when(entityManager.find(CreditCardJpaEntity.class, 9L)).thenReturn(null);
 
         Optional<CreditCardJpaEntity> result = dao.findById(9L);
@@ -70,6 +68,8 @@ class CreditCardJpaDaoImplTest {
 
     @Test
     void insert_ShouldPersistEntity() {
+        EntityManager entityManager = mock(EntityManager.class);
+        CreditCardJpaDaoImpl dao = createDao(entityManager);
         CreditCardJpaEntity entity = new CreditCardJpaEntity();
 
         CreditCardJpaEntity result = dao.insert(entity);
@@ -80,6 +80,8 @@ class CreditCardJpaDaoImplTest {
 
     @Test
     void update_ShouldMergeEntity() {
+        EntityManager entityManager = mock(EntityManager.class);
+        CreditCardJpaDaoImpl dao = createDao(entityManager);
         CreditCardJpaEntity entity = new CreditCardJpaEntity();
         CreditCardJpaEntity merged = new CreditCardJpaEntity();
 
@@ -93,6 +95,8 @@ class CreditCardJpaDaoImplTest {
 
     @Test
     void deleteById_ShouldRemoveEntity_WhenFound() {
+        EntityManager entityManager = mock(EntityManager.class);
+        CreditCardJpaDaoImpl dao = createDao(entityManager);
         CreditCardJpaEntity entity = new CreditCardJpaEntity();
         entity.setId(3L);
 
@@ -105,6 +109,8 @@ class CreditCardJpaDaoImplTest {
 
     @Test
     void deleteById_ShouldNotRemove_WhenMissing() {
+        EntityManager entityManager = mock(EntityManager.class);
+        CreditCardJpaDaoImpl dao = createDao(entityManager);
         when(entityManager.find(CreditCardJpaEntity.class, 4L)).thenReturn(null);
 
         dao.deleteById(4L);

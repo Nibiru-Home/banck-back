@@ -3,7 +3,6 @@ package bank_back.bank_back.persistence.dao.jpa.impl;
 import bank_back.bank_back.persistence.dao.jpa.entity.BankMovementJpaEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -15,22 +14,17 @@ import static org.mockito.Mockito.*;
 
 class BankMovementJpaDaoImplTest {
 
-    private EntityManager entityManager;
-
-    private TypedQuery<BankMovementJpaEntity> typedQuery;
-
-    private BankMovementJpaDaoImpl dao;
-
-    @BeforeEach
-    void setUp() {
-        entityManager = mock(EntityManager.class);
-        typedQuery = mock(TypedQuery.class);
-        dao = new BankMovementJpaDaoImpl();
+    private BankMovementJpaDaoImpl createDao(EntityManager entityManager) {
+        BankMovementJpaDaoImpl dao = new BankMovementJpaDaoImpl();
         ReflectionTestUtils.setField(dao, "entityManager", entityManager);
+        return dao;
     }
 
     @Test
     void findAll_ShouldReturnResults() {
+        EntityManager entityManager = mock(EntityManager.class);
+        TypedQuery<BankMovementJpaEntity> typedQuery = mock(TypedQuery.class);
+        BankMovementJpaDaoImpl dao = createDao(entityManager);
         BankMovementJpaEntity entity = new BankMovementJpaEntity();
 
         when(entityManager.createQuery("SELECT b FROM BankMovementJpaEntity b", BankMovementJpaEntity.class))
@@ -48,6 +42,8 @@ class BankMovementJpaDaoImplTest {
 
     @Test
     void findById_ShouldReturnOptional_WhenEntityExists() {
+        EntityManager entityManager = mock(EntityManager.class);
+        BankMovementJpaDaoImpl dao = createDao(entityManager);
         BankMovementJpaEntity entity = new BankMovementJpaEntity();
         entity.setId(1L);
 
@@ -61,6 +57,8 @@ class BankMovementJpaDaoImplTest {
 
     @Test
     void findById_ShouldReturnEmpty_WhenEntityMissing() {
+        EntityManager entityManager = mock(EntityManager.class);
+        BankMovementJpaDaoImpl dao = createDao(entityManager);
         when(entityManager.find(BankMovementJpaEntity.class, 9L)).thenReturn(null);
 
         Optional<BankMovementJpaEntity> result = dao.findById(9L);
@@ -70,6 +68,8 @@ class BankMovementJpaDaoImplTest {
 
     @Test
     void insert_ShouldPersistEntity() {
+        EntityManager entityManager = mock(EntityManager.class);
+        BankMovementJpaDaoImpl dao = createDao(entityManager);
         BankMovementJpaEntity entity = new BankMovementJpaEntity();
 
         BankMovementJpaEntity result = dao.insert(entity);
@@ -80,6 +80,8 @@ class BankMovementJpaDaoImplTest {
 
     @Test
     void update_ShouldMergeEntity() {
+        EntityManager entityManager = mock(EntityManager.class);
+        BankMovementJpaDaoImpl dao = createDao(entityManager);
         BankMovementJpaEntity entity = new BankMovementJpaEntity();
         BankMovementJpaEntity merged = new BankMovementJpaEntity();
 
@@ -93,6 +95,8 @@ class BankMovementJpaDaoImplTest {
 
     @Test
     void deleteById_ShouldRemoveEntity_WhenFound() {
+        EntityManager entityManager = mock(EntityManager.class);
+        BankMovementJpaDaoImpl dao = createDao(entityManager);
         BankMovementJpaEntity entity = new BankMovementJpaEntity();
         entity.setId(3L);
 
@@ -105,6 +109,8 @@ class BankMovementJpaDaoImplTest {
 
     @Test
     void deleteById_ShouldNotRemove_WhenMissing() {
+        EntityManager entityManager = mock(EntityManager.class);
+        BankMovementJpaDaoImpl dao = createDao(entityManager);
         when(entityManager.find(BankMovementJpaEntity.class, 4L)).thenReturn(null);
 
         dao.deleteById(4L);
