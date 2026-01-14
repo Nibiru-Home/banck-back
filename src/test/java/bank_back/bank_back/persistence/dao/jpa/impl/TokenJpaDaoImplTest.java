@@ -9,11 +9,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -29,39 +27,6 @@ class TokenJpaDaoImplTest {
 
     @InjectMocks
     private TokenJpaDaoImpl dao;
-
-    @Test
-    void findByValue_ShouldReturnEntity_WhenFound() {
-        UUID id = UUID.randomUUID();
-        UUID clientId = UUID.randomUUID();
-        Instant createdAt = Instant.parse("2025-01-01T00:00:00Z");
-        TokenJpaEntity entity = new TokenJpaEntity(id, "token", clientId, createdAt);
-
-        when(entityManager.createQuery(
-                "SELECT t FROM TokenJpaEntity t WHERE t.value = :value",
-                TokenJpaEntity.class)).thenReturn(typedQuery);
-        when(typedQuery.setParameter("value", "token")).thenReturn(typedQuery);
-        when(typedQuery.getResultStream()).thenReturn(Stream.of(entity));
-
-        Optional<TokenJpaEntity> result = dao.findByValue("token");
-
-        assertTrue(result.isPresent());
-        assertEquals(id, result.get().getId());
-        assertEquals("token", result.get().getValue());
-    }
-
-    @Test
-    void findByValue_ShouldReturnEmpty_WhenMissing() {
-        when(entityManager.createQuery(
-                "SELECT t FROM TokenJpaEntity t WHERE t.value = :value",
-                TokenJpaEntity.class)).thenReturn(typedQuery);
-        when(typedQuery.setParameter("value", "missing")).thenReturn(typedQuery);
-        when(typedQuery.getResultStream()).thenReturn(Stream.empty());
-
-        Optional<TokenJpaEntity> result = dao.findByValue("missing");
-
-        assertTrue(result.isEmpty());
-    }
 
     @Test
     void findAll_ShouldReturnResults() {

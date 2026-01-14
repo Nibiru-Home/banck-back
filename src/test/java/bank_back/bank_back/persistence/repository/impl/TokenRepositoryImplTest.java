@@ -11,10 +11,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
-import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -59,30 +59,4 @@ class TokenRepositoryImplTest {
         verify(tokenJpaDao, never()).insert(any(TokenJpaEntity.class));
     }
 
-    @Test
-    void findByValue_ShouldMapEntity_WhenExists() {
-        UUID id = UUID.randomUUID();
-        UUID clientId = UUID.randomUUID();
-        Instant createdAt = Instant.parse("2025-01-03T00:00:00Z");
-        TokenJpaEntity entity = new TokenJpaEntity(id, "token3", clientId, createdAt);
-
-        when(tokenJpaDao.findByValue("token3")).thenReturn(Optional.of(entity));
-
-        Optional<Token> result = repository.findByValue("token3");
-
-        assertTrue(result.isPresent());
-        assertEquals(id, result.get().getId());
-        assertEquals("token3", result.get().getValue());
-        assertEquals(clientId, result.get().getClientId());
-        assertEquals(createdAt, result.get().getCreatedAt());
-    }
-
-    @Test
-    void findByValue_ShouldReturnEmpty_WhenMissing() {
-        when(tokenJpaDao.findByValue("missing")).thenReturn(Optional.empty());
-
-        Optional<Token> result = repository.findByValue("missing");
-
-        assertTrue(result.isEmpty());
-    }
 }

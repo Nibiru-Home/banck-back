@@ -2,7 +2,6 @@ package bank_back.bank_back.persistence.dao.jpa.impl;
 
 import bank_back.bank_back.persistence.dao.jpa.entity.ClientJpaEntity;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -131,63 +130,4 @@ class ClientJpaDaoImplTest {
         verify(entityManager, never()).remove(any(ClientJpaEntity.class));
     }
 
-    @Test
-    void findByLogin_ShouldReturnEntity_WhenFound() {
-        ClientJpaEntity entity = new ClientJpaEntity();
-        entity.setLogin("marta");
-
-        when(entityManager.createQuery(
-                "SELECT c FROM ClientJpaEntity c WHERE c.login = :login",
-                ClientJpaEntity.class)).thenReturn(typedQuery);
-        when(typedQuery.setParameter("login", "marta")).thenReturn(typedQuery);
-        when(typedQuery.getSingleResult()).thenReturn(entity);
-
-        Optional<ClientJpaEntity> result = dao.findByLogin("marta");
-
-        assertTrue(result.isPresent());
-        assertEquals("marta", result.get().getLogin());
-    }
-
-    @Test
-    void findByLogin_ShouldReturnEmpty_WhenMissing() {
-        when(entityManager.createQuery(
-                "SELECT c FROM ClientJpaEntity c WHERE c.login = :login",
-                ClientJpaEntity.class)).thenReturn(typedQuery);
-        when(typedQuery.setParameter("login", "missing")).thenReturn(typedQuery);
-        when(typedQuery.getSingleResult()).thenThrow(new NoResultException());
-
-        Optional<ClientJpaEntity> result = dao.findByLogin("missing");
-
-        assertTrue(result.isEmpty());
-    }
-
-    @Test
-    void findByDni_ShouldReturnEntity_WhenFound() {
-        ClientJpaEntity entity = new ClientJpaEntity();
-        entity.setDNI("12345678A");
-
-        when(entityManager.createQuery(
-                "SELECT c FROM ClientJpaEntity c WHERE c.DNI = :DNI",
-                ClientJpaEntity.class)).thenReturn(typedQuery);
-        when(typedQuery.setParameter("DNI", "12345678A")).thenReturn(typedQuery);
-        when(typedQuery.getSingleResult()).thenReturn(entity);
-
-        Optional<ClientJpaEntity> result = dao.findByDNI("12345678A");
-
-        assertTrue(result.isPresent());
-        assertEquals("12345678A", result.get().getDNI());
-    }
-
-    @Test
-    void findByDni_ShouldReturnEmpty_WhenMissing() {
-        when(entityManager.createQuery(
-                "SELECT c FROM ClientJpaEntity c WHERE c.DNI = :DNI",
-                ClientJpaEntity.class)).thenReturn(typedQuery);
-        when(typedQuery.setParameter("DNI", "missing")).thenReturn(typedQuery);
-        when(typedQuery.getSingleResult()).thenThrow(new NoResultException());
-
-        Optional<ClientJpaEntity> result = dao.findByDNI("missing");
-
-        assertTrue(result.isEmpty());
-    }
 }

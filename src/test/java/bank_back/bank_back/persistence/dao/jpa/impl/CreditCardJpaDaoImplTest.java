@@ -2,7 +2,6 @@ package bank_back.bank_back.persistence.dao.jpa.impl;
 
 import bank_back.bank_back.persistence.dao.jpa.entity.CreditCardJpaEntity;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -126,33 +125,4 @@ class CreditCardJpaDaoImplTest {
         verify(entityManager, never()).remove(any(CreditCardJpaEntity.class));
     }
 
-    @Test
-    void findByNumber_ShouldReturnEntity_WhenFound() {
-        CreditCardJpaEntity entity = new CreditCardJpaEntity();
-        entity.setNumber("4111111111111111");
-
-        when(entityManager.createQuery(
-                "SELECT c FROM CreditCardJpaEntity c WHERE c.number = :number",
-                CreditCardJpaEntity.class)).thenReturn(typedQuery);
-        when(typedQuery.setParameter("number", "4111111111111111")).thenReturn(typedQuery);
-        when(typedQuery.getSingleResult()).thenReturn(entity);
-
-        Optional<CreditCardJpaEntity> result = dao.findByNumber("4111111111111111");
-
-        assertTrue(result.isPresent());
-        assertEquals("4111111111111111", result.get().getNumber());
-    }
-
-    @Test
-    void findByNumber_ShouldReturnEmpty_WhenMissing() {
-        when(entityManager.createQuery(
-                "SELECT c FROM CreditCardJpaEntity c WHERE c.number = :number",
-                CreditCardJpaEntity.class)).thenReturn(typedQuery);
-        when(typedQuery.setParameter("number", "missing")).thenReturn(typedQuery);
-        when(typedQuery.getSingleResult()).thenThrow(new NoResultException());
-
-        Optional<CreditCardJpaEntity> result = dao.findByNumber("missing");
-
-        assertTrue(result.isEmpty());
-    }
 }

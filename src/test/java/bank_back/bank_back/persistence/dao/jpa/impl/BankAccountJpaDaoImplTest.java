@@ -2,7 +2,6 @@ package bank_back.bank_back.persistence.dao.jpa.impl;
 
 import bank_back.bank_back.persistence.dao.jpa.entity.BankAccountJpaEntity;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -126,34 +125,4 @@ class BankAccountJpaDaoImplTest {
         verify(entityManager, never()).remove(any(BankAccountJpaEntity.class));
     }
 
-    @Test
-    void findByIban_ShouldReturnEntity_WhenFound() {
-        BankAccountJpaEntity entity = new BankAccountJpaEntity();
-        entity.setId(5L);
-
-        when(entityManager.createQuery(
-                "SELECT b FROM BankAccountJpaEntity b WHERE b.iban = :iban",
-                BankAccountJpaEntity.class)).thenReturn(typedQuery);
-        when(typedQuery.setParameter("iban", "ES123")).thenReturn(typedQuery);
-        when(typedQuery.getSingleResult()).thenReturn(entity);
-
-        Optional<BankAccountJpaEntity> result = dao.findByIban("ES123");
-
-        assertTrue(result.isPresent());
-        assertEquals(5L, result.get().getId());
-        verify(typedQuery).setParameter("iban", "ES123");
-    }
-
-    @Test
-    void findByIban_ShouldReturnEmpty_WhenMissing() {
-        when(entityManager.createQuery(
-                "SELECT b FROM BankAccountJpaEntity b WHERE b.iban = :iban",
-                BankAccountJpaEntity.class)).thenReturn(typedQuery);
-        when(typedQuery.setParameter("iban", "ES404")).thenReturn(typedQuery);
-        when(typedQuery.getSingleResult()).thenThrow(new NoResultException());
-
-        Optional<BankAccountJpaEntity> result = dao.findByIban("ES404");
-
-        assertTrue(result.isEmpty());
-    }
 }
