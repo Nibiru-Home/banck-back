@@ -3,12 +3,9 @@ package bank_back.bank_back.persistence.repository.impl;
 import bank_back.bank_back.domain.model.Token;
 import bank_back.bank_back.persistence.dao.jpa.TokenJpaDao;
 import bank_back.bank_back.persistence.dao.jpa.entity.TokenJpaEntity;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -18,14 +15,17 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 class TokenRepositoryImplTest {
 
-    @Mock
     private TokenJpaDao tokenJpaDao;
 
-    @InjectMocks
     private TokenRepositoryImpl repository;
+
+    @BeforeEach
+    void setUp() {
+        tokenJpaDao = mock(TokenJpaDao.class);
+        repository = new TokenRepositoryImpl(tokenJpaDao);
+    }
 
     @Test
     void save_ShouldInsert_WhenIdIsNull() {

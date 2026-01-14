@@ -5,10 +5,7 @@ import bank_back.bank_back.persistence.dao.jpa.BankAccountJpaDao;
 import bank_back.bank_back.persistence.dao.jpa.entity.BankAccountJpaEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -18,16 +15,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 class BankAccountRepositoryImplTest {
 
-    @Mock
     private BankAccountJpaDao bankAccountJpaDao;
 
     private BankAccountRepositoryImpl repository;
 
     @BeforeEach
     void setUp() {
+        bankAccountJpaDao = mock(BankAccountJpaDao.class);
         repository = new BankAccountRepositoryImpl(bankAccountJpaDao);
     }
 

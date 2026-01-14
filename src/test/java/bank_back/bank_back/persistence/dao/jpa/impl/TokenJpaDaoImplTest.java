@@ -3,11 +3,9 @@ package bank_back.bank_back.persistence.dao.jpa.impl;
 import bank_back.bank_back.persistence.dao.jpa.entity.TokenJpaEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,17 +14,21 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 class TokenJpaDaoImplTest {
 
-    @Mock
     private EntityManager entityManager;
 
-    @Mock
     private TypedQuery<TokenJpaEntity> typedQuery;
 
-    @InjectMocks
     private TokenJpaDaoImpl dao;
+
+    @BeforeEach
+    void setUp() {
+        entityManager = mock(EntityManager.class);
+        typedQuery = mock(TypedQuery.class);
+        dao = new TokenJpaDaoImpl();
+        ReflectionTestUtils.setField(dao, "entityManager", entityManager);
+    }
 
     @Test
     void findAll_ShouldReturnResults() {

@@ -10,14 +10,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import static org.mockito.ArgumentMatchers.any;
-import org.mockito.Mock;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import bank_back.bank_back.domain.model.BankMovement;
 import bank_back.bank_back.domain.model.MovementOrigin;
@@ -25,16 +23,15 @@ import bank_back.bank_back.domain.model.MovementType;
 import bank_back.bank_back.persistence.dao.jpa.BankMovementJpaDao;
 import bank_back.bank_back.persistence.dao.jpa.entity.BankMovementJpaEntity;
 
-@ExtendWith(MockitoExtension.class)
 class BankMovementRepositoryImplTest {
 
-    @Mock
     private BankMovementJpaDao bankMovementJpaDao;
 
     private BankMovementRepositoryImpl repository;
 
     @BeforeEach
     void setUp() {
+        bankMovementJpaDao = mock(BankMovementJpaDao.class);
         repository = new BankMovementRepositoryImpl(bankMovementJpaDao);
     }
 
