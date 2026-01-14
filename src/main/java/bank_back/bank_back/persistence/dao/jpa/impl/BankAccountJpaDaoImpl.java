@@ -6,9 +6,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,12 +22,7 @@ public class BankAccountJpaDaoImpl implements BankAccountJpaDao {
 
     @Override
     public List<BankAccountJpaEntity> findAll(int page, int size) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<BankAccountJpaEntity> cq = cb.createQuery(BankAccountJpaEntity.class);
-        Root<BankAccountJpaEntity> rootEntry = cq.from(BankAccountJpaEntity.class);
-        CriteriaQuery<BankAccountJpaEntity> all = cq.select(rootEntry);
-
-        return entityManager.createQuery(all)
+        return entityManager.createQuery("SELECT b FROM BankAccountJpaEntity b", BankAccountJpaEntity.class)
                 .setFirstResult(page * size)
                 .setMaxResults(size)
                 .getResultList();

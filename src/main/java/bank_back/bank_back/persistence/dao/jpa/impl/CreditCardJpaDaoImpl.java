@@ -6,9 +6,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,12 +22,7 @@ public class CreditCardJpaDaoImpl implements CreditCardJpaDao {
 
     @Override
     public List<CreditCardJpaEntity> findAll(int page, int size) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<CreditCardJpaEntity> cq = cb.createQuery(CreditCardJpaEntity.class);
-        Root<CreditCardJpaEntity> rootEntry = cq.from(CreditCardJpaEntity.class);
-        CriteriaQuery<CreditCardJpaEntity> all = cq.select(rootEntry);
-
-        return entityManager.createQuery(all)
+        return entityManager.createQuery("SELECT c FROM CreditCardJpaEntity c", CreditCardJpaEntity.class)
                 .setFirstResult(page * size)
                 .setMaxResults(size)
                 .getResultList();

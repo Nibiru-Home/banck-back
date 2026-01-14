@@ -4,9 +4,6 @@ import bank_back.bank_back.persistence.dao.jpa.BankMovementJpaDao;
 import bank_back.bank_back.persistence.dao.jpa.entity.BankMovementJpaEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,12 +20,7 @@ public class BankMovementJpaDaoImpl implements BankMovementJpaDao {
 
     @Override
     public List<BankMovementJpaEntity> findAll(int page, int size) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<BankMovementJpaEntity> cq = cb.createQuery(BankMovementJpaEntity.class);
-        Root<BankMovementJpaEntity> rootEntry = cq.from(BankMovementJpaEntity.class);
-        CriteriaQuery<BankMovementJpaEntity> all = cq.select(rootEntry);
-
-        return entityManager.createQuery(all)
+        return entityManager.createQuery("SELECT b FROM BankMovementJpaEntity b", BankMovementJpaEntity.class)
                 .setFirstResult(page * size)
                 .setMaxResults(size)
                 .getResultList();

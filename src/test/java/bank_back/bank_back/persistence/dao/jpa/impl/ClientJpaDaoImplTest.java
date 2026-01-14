@@ -3,9 +3,6 @@ package bank_back.bank_back.persistence.dao.jpa.impl;
 import bank_back.bank_back.persistence.dao.jpa.entity.ClientJpaEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,15 +23,6 @@ class ClientJpaDaoImplTest {
     private EntityManager entityManager;
 
     @Mock
-    private CriteriaBuilder criteriaBuilder;
-
-    @Mock
-    private CriteriaQuery<ClientJpaEntity> criteriaQuery;
-
-    @Mock
-    private Root<ClientJpaEntity> root;
-
-    @Mock
     private TypedQuery<ClientJpaEntity> typedQuery;
 
     @InjectMocks
@@ -44,11 +32,8 @@ class ClientJpaDaoImplTest {
     void findAll_ShouldReturnResults() {
         ClientJpaEntity entity = new ClientJpaEntity();
 
-        when(entityManager.getCriteriaBuilder()).thenReturn(criteriaBuilder);
-        when(criteriaBuilder.createQuery(ClientJpaEntity.class)).thenReturn(criteriaQuery);
-        when(criteriaQuery.from(ClientJpaEntity.class)).thenReturn(root);
-        when(criteriaQuery.select(root)).thenReturn(criteriaQuery);
-        when(entityManager.createQuery(criteriaQuery)).thenReturn(typedQuery);
+        when(entityManager.createQuery("SELECT c FROM ClientJpaEntity c", ClientJpaEntity.class))
+                .thenReturn(typedQuery);
         when(typedQuery.setFirstResult(10)).thenReturn(typedQuery);
         when(typedQuery.setMaxResults(5)).thenReturn(typedQuery);
         when(typedQuery.getResultList()).thenReturn(List.of(entity));

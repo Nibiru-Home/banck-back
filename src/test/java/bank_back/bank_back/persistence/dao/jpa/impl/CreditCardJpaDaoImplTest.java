@@ -3,9 +3,6 @@ package bank_back.bank_back.persistence.dao.jpa.impl;
 import bank_back.bank_back.persistence.dao.jpa.entity.CreditCardJpaEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,15 +22,6 @@ class CreditCardJpaDaoImplTest {
     private EntityManager entityManager;
 
     @Mock
-    private CriteriaBuilder criteriaBuilder;
-
-    @Mock
-    private CriteriaQuery<CreditCardJpaEntity> criteriaQuery;
-
-    @Mock
-    private Root<CreditCardJpaEntity> root;
-
-    @Mock
     private TypedQuery<CreditCardJpaEntity> typedQuery;
 
     @InjectMocks
@@ -43,11 +31,8 @@ class CreditCardJpaDaoImplTest {
     void findAll_ShouldReturnResults() {
         CreditCardJpaEntity entity = new CreditCardJpaEntity();
 
-        when(entityManager.getCriteriaBuilder()).thenReturn(criteriaBuilder);
-        when(criteriaBuilder.createQuery(CreditCardJpaEntity.class)).thenReturn(criteriaQuery);
-        when(criteriaQuery.from(CreditCardJpaEntity.class)).thenReturn(root);
-        when(criteriaQuery.select(root)).thenReturn(criteriaQuery);
-        when(entityManager.createQuery(criteriaQuery)).thenReturn(typedQuery);
+        when(entityManager.createQuery("SELECT c FROM CreditCardJpaEntity c", CreditCardJpaEntity.class))
+                .thenReturn(typedQuery);
         when(typedQuery.setFirstResult(0)).thenReturn(typedQuery);
         when(typedQuery.setMaxResults(10)).thenReturn(typedQuery);
         when(typedQuery.getResultList()).thenReturn(List.of(entity));
