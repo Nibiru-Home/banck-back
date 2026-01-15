@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CreditCardMapperTest {
 
-    private final CreditCardMapper mapper = CreditCardMapper.getInstance();
+    private final CreditCardMapper mapper = new CreditCardMapper();
 
     @Test
     void toDto_ShouldMapAllFields_WhenModelIsNotNull() {

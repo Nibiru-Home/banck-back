@@ -6,6 +6,9 @@ import bank_back.bank_back.domain.model.BankMovement;
 
 public interface BankMovementService {
     List<BankMovement> findAll();
+
+    List<BankMovement> findByCreditCardId(Long id);
+
     BankMovement findById(Long id);
     BankMovement create(BankMovement bankMovement);
     BankMovement update(Long id, BankMovement bankMovement);

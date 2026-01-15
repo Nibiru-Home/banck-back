@@ -1,6 +1,6 @@
 -- Client
 INSERT INTO clients (id, login, password, first_name, last_name, second_last_name, dni) 
-VALUES ('55555555-5555-5555-5555-555555555555', 'Marta', 'pmarta123', 'Marta', 'Martinez', 'Garcia', '12345678A');
+VALUES ('55555555-5555-5555-5555-555555555555', 'Marta', 'marta123', 'Marta', 'Martinez', 'Garcia', '12345678A');
 INSERT INTO clients (id, login, password, first_name, last_name, second_last_name, dni) 
 VALUES ('66666666-6666-6666-6666-666666666666', 'Alfonso', 'alfonso123', 'Alfonso', 'Hernandez', 'Lopez', '91011121R');
 INSERT INTO clients (id, login, password, first_name, last_name, second_last_name, dni) 

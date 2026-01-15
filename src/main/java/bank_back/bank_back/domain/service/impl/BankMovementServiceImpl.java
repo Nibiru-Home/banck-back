@@ -22,6 +22,11 @@ public class BankMovementServiceImpl implements BankMovementService {
     }
 
     @Override
+    public List<BankMovement> findByCreditCardId(Long id) {
+        return bankMovementRepository.findByCreditCardId(id);
+    }
+
+    @Override
     public BankMovement findById(Long id) {
         return bankMovementRepository.findById(id).orElse(null);
     }

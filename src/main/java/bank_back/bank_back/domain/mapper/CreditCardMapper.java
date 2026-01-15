@@ -3,19 +3,10 @@ package bank_back.bank_back.domain.mapper;
 import bank_back.bank_back.domain.dto.CreditCardDto;
 import bank_back.bank_back.domain.model.CreditCard;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class CreditCardMapper {
-
-        private static CreditCardMapper INSTANCE;
-
-        private CreditCardMapper() {
-        }
-
-        public static CreditCardMapper getInstance() {
-                if (INSTANCE == null) {
-                        INSTANCE = new CreditCardMapper();
-                }
-                return INSTANCE;
-        }
 
         public CreditCardDto toDto(CreditCard model) {
                 if (model == null) {

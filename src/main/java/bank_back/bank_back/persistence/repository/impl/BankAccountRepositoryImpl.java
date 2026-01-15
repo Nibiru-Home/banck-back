@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
@@ -50,5 +51,18 @@ public class BankAccountRepositoryImpl implements BankAccountRepository {
     @Transactional
     public void deleteById(Long id) {
         bankAccountJpaDao.deleteById(id);
+    }
+
+    @Override
+    public Optional<BankAccount> findByCreditCardId(Long id) {
+        return bankAccountJpaDao.findByCreditCardId(id)
+                .map(BankAccountEntityMapper.getInstance()::toModel);
+    }
+
+    @Override
+    public List<BankAccount> findByClientId(UUID clientId) {
+        return bankAccountJpaDao.findByClientId(clientId).stream()
+                .map(BankAccountEntityMapper.getInstance()::toModel)
+                .collect(Collectors.toList());
     }
 }

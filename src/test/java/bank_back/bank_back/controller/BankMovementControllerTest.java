@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(BankMovementController.class)       
+@WebMvcTest(BankMovementController.class)
 class BankMovementControllerTest {
 
         @MockitoBean

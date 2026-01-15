@@ -51,4 +51,11 @@ public class CreditCardRepositoryImpl implements CreditCardRepository {
     public void deleteById(Long id) {
         creditCardJpaDao.deleteById(id);
     }
+
+    @Override
+    public List<CreditCard> findByClientId(java.util.UUID clientId) {
+        return creditCardJpaDao.findByClientId(clientId).stream()
+                .map(CreditCardEntityMapper.getInstance()::toModel)
+                .collect(Collectors.toList());
+    }
 }

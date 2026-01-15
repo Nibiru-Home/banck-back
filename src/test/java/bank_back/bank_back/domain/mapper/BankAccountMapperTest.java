@@ -10,17 +10,34 @@ import bank_back.bank_back.domain.model.CreditCard;
 import bank_back.bank_back.domain.model.MovementOrigin;
 import bank_back.bank_back.domain.model.MovementType;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import bank_back.bank_back.domain.dto.ClientDto;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class BankAccountMapperTest {
 
-    private final BankAccountMapper mapper = BankAccountMapper.getInstance();
+    private ClientMapper clientMapper;
+    private BankMovementMapper bankMovementMapper;
+    private CreditCardMapper creditCardMapper;
+    private BankAccountMapper mapper;
+
+    @BeforeEach
+    void setUp() {
+        clientMapper = mock(ClientMapper.class);
+        bankMovementMapper = mock(BankMovementMapper.class);
+        creditCardMapper = mock(CreditCardMapper.class);
+        mapper = new BankAccountMapper(clientMapper, bankMovementMapper, creditCardMapper);
+    }
 
     @Test
     void toDto_ShouldMapAllFields_WhenModelIsNotNull() {
@@ -49,6 +66,12 @@ class BankAccountMapperTest {
         List<CreditCard> creditCards = new ArrayList<>();
         creditCards.add(creditCard);
         model.setCreditCards(creditCards);
+
+        when(clientMapper.toDto(any(Client.class)))
+                .thenReturn(new ClientDto(client.getId(), "testuser", null, null, null, null, null, null, null));
+        when(bankMovementMapper.toDto(any(BankMovement.class)))
+                .thenReturn(new BankMovementDto(10L, null, null, null, null, null, null, null));
+        when(creditCardMapper.toDto(any(CreditCard.class))).thenReturn(new CreditCardDto(20L, null, null, 0, null));
 
         BankAccountDto dto = mapper.toDto(model);
 
@@ -106,6 +129,15 @@ class BankAccountMapperTest {
                 null,
                 List.of(movementDto),
                 List.of(creditCardDto));
+
+        BankMovement movementModel = new BankMovement();
+        movementModel.setId(null);
+        movementModel.setAmount(new BigDecimal("50.00"));
+        when(bankMovementMapper.toModel(any(BankMovementDto.class))).thenReturn(movementModel);
+
+        CreditCard creditCardModel = new CreditCard();
+        creditCardModel.setId(20L);
+        when(creditCardMapper.toModel(any(CreditCardDto.class))).thenReturn(creditCardModel);
 
         BankAccount model = mapper.toModel(dto);
 

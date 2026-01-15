@@ -51,4 +51,11 @@ public class BankMovementRepositoryImpl implements BankMovementRepository {
     public void deleteById(Long id) {
         bankMovementJpaDao.deleteById(id);
     }
+
+    @Override
+    public List<BankMovement> findByCreditCardId(Long creditCardId) {
+        return bankMovementJpaDao.findByOriginCreditCardId(creditCardId).stream()
+                .map(BankMovementEntityMapper.getInstance()::toModel)
+                .collect(Collectors.toList());
+    }
 }

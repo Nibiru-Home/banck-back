@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/bank-accounts")
@@ -43,6 +44,26 @@ public class BankAccountController {
         }
         BankAccountDto dto = bankAccountDomainMapper.toDto(bankAccount);
         return ResponseEntity.ok(BankAccountMapper.getInstance().bankAccountDtoToBankAccountResponse(dto));
+    }
+
+    @GetMapping("/card/{id}")
+    public ResponseEntity<BankAccountResponse> findByCreditCardId(@PathVariable Long id) {
+        BankAccount bankAccount = bankAccountService.findByCreditCardId(id);
+        if (bankAccount == null) {
+            return ResponseEntity.notFound().build();
+        }
+        BankAccountDto dto = bankAccountDomainMapper.toDto(bankAccount);
+        return ResponseEntity.ok(BankAccountMapper.getInstance().bankAccountDtoToBankAccountResponse(dto));
+    }
+
+    @GetMapping("/client/{id}")
+    public ResponseEntity<List<BankAccountResponse>> findByClientId(@PathVariable UUID id) {
+        List<BankAccount> bankAccounts = bankAccountService.findByClientId(id);
+        List<BankAccountResponse> responses = bankAccounts.stream()
+                .map(bankAccountDomainMapper::toDto)
+                .map(BankAccountMapper.getInstance()::bankAccountDtoToBankAccountResponse)
+                .toList();
+        return ResponseEntity.ok(responses);
     }
 
     @PostMapping

@@ -45,6 +45,16 @@ public class BankMovementController {
         return ResponseEntity.ok(BankMovementMapper.getInstance().bankMovementDtoToBankMovementResponse(dto));
     }
 
+    @GetMapping("/card/{id}")
+    public ResponseEntity<List<BankMovementResponse>> findByCreditCardId(@PathVariable Long id) {
+        List<BankMovement> bankMovements = bankMovementService.findByCreditCardId(id);
+        List<BankMovementResponse> responses = bankMovements.stream()
+                .map(bankMovementDomainMapper::toDto)
+                .map(BankMovementMapper.getInstance()::bankMovementDtoToBankMovementResponse)
+                .toList();
+        return ResponseEntity.ok(responses);
+    }
+
     @PostMapping
     public ResponseEntity<BankMovementResponse> create(@RequestBody BankMovementRequest request) {
         BankMovementDto dto = BankMovementMapper.getInstance().bankMovementRequestToBankMovementDto(request);

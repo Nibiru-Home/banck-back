@@ -100,13 +100,23 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <argLine>-XX:+EnableDynamicAgentLoading -Xshare:off</argLine>
-                </configuration>
-            </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+                <argLine>-XX:+EnableDynamicAgentLoading -Xshare:off</argLine>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-maven-plugin</artifactId>
+            <version>10.0.0</version>
+            <configuration>
+                <url>jdbc:mysql://localhost:3306/nibirubank</url>
+                <user>root</user>
+                <password>root1234</password>
+            </configuration>
+        </plugin>
 		</plugins>
 	</build>
 

@@ -6,6 +6,7 @@ import bank_back.bank_back.domain.service.BankAccountService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BankAccountServiceImpl implements BankAccountService {
@@ -24,6 +25,16 @@ public class BankAccountServiceImpl implements BankAccountService {
     @Override
     public BankAccount findById(Long id) {
         return bankAccountRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public BankAccount findByCreditCardId(Long id) {
+        return bankAccountRepository.findByCreditCardId(id).orElse(null);
+    }
+
+    @Override
+    public List<BankAccount> findByClientId(UUID clientId) {
+        return bankAccountRepository.findByClientId(clientId);
     }
 
     @Override

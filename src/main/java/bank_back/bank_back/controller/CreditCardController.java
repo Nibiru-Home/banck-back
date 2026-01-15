@@ -35,6 +35,16 @@ public class CreditCardController {
         return ResponseEntity.ok(responses);
     }
 
+    @GetMapping("/client/{id}")
+    public ResponseEntity<List<CreditCardResponse>> findByClientId(@PathVariable java.util.UUID id) {
+        List<CreditCard> creditCards = creditCardService.findByClientId(id);
+        List<CreditCardResponse> responses = creditCards.stream()
+                .map(creditCardDomainMapper::toDto)
+                .map(CreditCardMapper.getInstance()::creditCardDtoToCreditCardResponse)
+                .toList();
+        return ResponseEntity.ok(responses);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<CreditCardResponse> findById(@PathVariable Long id) {
         CreditCard creditCard = creditCardService.findById(id);

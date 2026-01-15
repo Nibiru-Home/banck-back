@@ -10,4 +10,5 @@ public interface CreditCardService {
     CreditCard create(CreditCard creditCard);
     CreditCard update(Long id, CreditCard creditCard);
     void delete(Long id);
+    List<CreditCard> findByClientId(java.util.UUID clientId);
 }

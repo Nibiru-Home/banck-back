@@ -44,4 +44,9 @@ public class CreditCardServiceImpl implements CreditCardService {
     public void delete(Long id) {
         creditCardRepository.deleteById(id);
     }
+
+    @Override
+    public List<CreditCard> findByClientId(java.util.UUID clientId) {
+        return creditCardRepository.findByClientId(clientId);
+    }
 }

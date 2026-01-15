@@ -13,9 +13,22 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 class ClientMapperTest {
 
-    private final ClientMapper mapper = ClientMapper.getInstance();
+    private BankAccountMapper bankAccountMapper;
+    private ClientMapper mapper;
+
+    @BeforeEach
+    void setUp() {
+        bankAccountMapper = mock(BankAccountMapper.class);
+        mapper = new ClientMapper(bankAccountMapper);
+    }
 
     @Test
     void toDto_ShouldMapAllFields_WhenModelIsNotNull() {
@@ -37,6 +50,15 @@ class ClientMapperTest {
         List<BankAccount> accounts = new ArrayList<>();
         accounts.add(account);
         model.setBankAccounts(accounts);
+
+        BankAccountDto accountDto = new BankAccountDto(
+                null,
+                new BigDecimal("100.00"),
+                "ES1234567890",
+                null,
+                null,
+                null);
+        when(bankAccountMapper.toDto(any(BankAccount.class))).thenReturn(accountDto);
 
         ClientDto dto = mapper.toDto(model);
 
@@ -81,6 +103,10 @@ class ClientMapperTest {
                 "12345678A",
                 "token123",
                 List.of(accountDto));
+
+        BankAccount accountModel = new BankAccount();
+        accountModel.setIban("ES1234567890");
+        when(bankAccountMapper.toModel(any(BankAccountDto.class))).thenReturn(accountModel);
 
         Client model = mapper.toModel(dto);
 

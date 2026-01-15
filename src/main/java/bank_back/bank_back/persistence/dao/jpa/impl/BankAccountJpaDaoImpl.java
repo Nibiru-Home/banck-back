@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class BankAccountJpaDaoImpl implements BankAccountJpaDao {
@@ -62,5 +63,27 @@ public class BankAccountJpaDaoImpl implements BankAccountJpaDao {
         } catch (NoResultException e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public Optional<BankAccountJpaEntity> findByCreditCardId(Long id) {
+        TypedQuery<BankAccountJpaEntity> query = entityManager.createQuery(
+                "SELECT b FROM BankAccountJpaEntity b JOIN b.creditCards c WHERE c.id = :creditCardId",
+                BankAccountJpaEntity.class);
+        query.setParameter("creditCardId", id);
+        try {
+            return Optional.of(query.getSingleResult());
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public List<BankAccountJpaEntity> findByClientId(UUID clientId) {
+        TypedQuery<BankAccountJpaEntity> query = entityManager.createQuery(
+                "SELECT b FROM BankAccountJpaEntity b WHERE b.client.id = :clientId",
+                BankAccountJpaEntity.class);
+        query.setParameter("clientId", clientId);
+        return query.getResultList();
     }
 }

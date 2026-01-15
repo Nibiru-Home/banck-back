@@ -10,4 +10,5 @@ public interface CreditCardRepository {
     Optional<CreditCard> findById(Long id);
     CreditCard save(CreditCard creditCard);
     void deleteById(Long id);
+    List<CreditCard> findByClientId(java.util.UUID clientId);
 }

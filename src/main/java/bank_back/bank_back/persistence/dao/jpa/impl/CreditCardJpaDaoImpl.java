@@ -63,4 +63,13 @@ public class CreditCardJpaDaoImpl implements CreditCardJpaDao {
             return Optional.empty();
         }
     }
+
+    @Override
+    public List<CreditCardJpaEntity> findByClientId(java.util.UUID clientId) {
+        TypedQuery<CreditCardJpaEntity> query = entityManager.createQuery(
+                "SELECT c FROM CreditCardJpaEntity c WHERE c.bankAccount.client.id = :clientId",
+                CreditCardJpaEntity.class);
+        query.setParameter("clientId", clientId);
+        return query.getResultList();
+    }
 }

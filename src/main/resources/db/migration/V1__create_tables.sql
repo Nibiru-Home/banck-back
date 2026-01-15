@@ -5,7 +5,9 @@ CREATE TABLE clients (
     first_name VARCHAR(255),
     last_name VARCHAR(255),
     second_last_name VARCHAR(255),
-    dni VARCHAR(255)
+    dni VARCHAR(255),
+    api_token VARCHAR(255),
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE bank_accounts (

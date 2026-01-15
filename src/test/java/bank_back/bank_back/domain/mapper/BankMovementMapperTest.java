@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BankMovementMapperTest {
 
-    private final BankMovementMapper mapper = BankMovementMapper.getInstance();
+    private final BankMovementMapper mapper = new BankMovementMapper();
 
     @Test
     void toDto_ShouldMapAllFields_WhenModelIsNotNull() {
