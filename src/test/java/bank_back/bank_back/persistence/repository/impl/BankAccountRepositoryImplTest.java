@@ -21,10 +21,15 @@ class BankAccountRepositoryImplTest {
 
     private BankAccountRepositoryImpl repository;
 
+    private bank_back.bank_back.persistence.dao.jpa.BankMovementJpaDao bankMovementJpaDao;
+    private bank_back.bank_back.persistence.dao.jpa.CreditCardJpaDao creditCardJpaDao;
+
     @BeforeEach
     void setUp() {
         bankAccountJpaDao = mock(BankAccountJpaDao.class);
-        repository = new BankAccountRepositoryImpl(bankAccountJpaDao);
+        bankMovementJpaDao = mock(bank_back.bank_back.persistence.dao.jpa.BankMovementJpaDao.class);
+        creditCardJpaDao = mock(bank_back.bank_back.persistence.dao.jpa.CreditCardJpaDao.class);
+        repository = new BankAccountRepositoryImpl(bankAccountJpaDao, bankMovementJpaDao, creditCardJpaDao);
     }
 
     @Test

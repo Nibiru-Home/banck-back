@@ -14,4 +14,6 @@ public interface ClientRepository {
     Client save(Client client);
 
     void deleteById(UUID id);
+
+    bank_back.bank_back.domain.dto.ClientDto findByLogin(String login);
 }

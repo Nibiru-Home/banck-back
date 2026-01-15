@@ -55,4 +55,25 @@ public class BankAccountServiceImpl implements BankAccountService {
     public void delete(Long id) {
         bankAccountRepository.deleteById(id);
     }
+
+    @Override
+    public BankAccount findByIban(String iban) {
+        return bankAccountRepository.findByIban(iban).orElse(null);
+    }
+
+    @Override
+    public bank_back.bank_back.domain.dto.BankAccountDto retirar(
+            bank_back.bank_back.domain.dto.BankAccountDto cuentaBancariaDto,
+            bank_back.bank_back.domain.dto.CreditCardDto tarjetaCreditoDto, java.math.BigDecimal importe,
+            String concepto) {
+        return bankAccountRepository.retirar(cuentaBancariaDto, tarjetaCreditoDto, importe, concepto);
+    }
+
+    @Override
+    public bank_back.bank_back.domain.dto.BankAccountDto ingresar(
+            bank_back.bank_back.domain.dto.BankAccountDto cuentaBancariaDto,
+            bank_back.bank_back.domain.dto.CreditCardDto tarjetaCreditoDto, java.math.BigDecimal importe,
+            String concepto) {
+        return bankAccountRepository.ingresar(cuentaBancariaDto, tarjetaCreditoDto, importe, concepto);
+    }
 }

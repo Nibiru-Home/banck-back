@@ -58,4 +58,10 @@ public class CreditCardRepositoryImpl implements CreditCardRepository {
                 .map(CreditCardEntityMapper.getInstance()::toModel)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public java.util.Optional<CreditCard> findByNumber(String number) {
+        return creditCardJpaDao.findByNumber(number)
+                .map(CreditCardEntityMapper.getInstance()::toModel);
+    }
 }

@@ -15,4 +15,6 @@ public interface ClientService {
     Client update(UUID id, Client client);
 
     void delete(UUID id);
+
+    bank_back.bank_back.domain.dto.ClientDto validate(String login, String apiToken);
 }

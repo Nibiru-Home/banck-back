@@ -18,6 +18,18 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public bank_back.bank_back.domain.dto.ClientDto validate(String login, String apiToken) {
+        bank_back.bank_back.domain.dto.ClientDto client = clientRepository.findByLogin(login);
+        if (client == null) {
+            throw new bank_back.bank_back.domain.exception.BusinessException("Credenciales invalidas");
+        }
+        if (apiToken != null && !apiToken.equals(client.apiToken())) {
+            throw new bank_back.bank_back.domain.exception.BusinessException("Token API invalido");
+        }
+        return client;
+    }
+
+    @Override
     public List<Client> findAll() {
         return clientRepository.findAll();
     }

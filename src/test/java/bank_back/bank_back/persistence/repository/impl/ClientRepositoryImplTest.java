@@ -18,13 +18,15 @@ import static org.mockito.Mockito.*;
 class ClientRepositoryImplTest {
 
     private ClientJpaDao clientJpaDao;
+    private bank_back.bank_back.persistence.dao.jpa.TokenJpaDao tokenJpaDao;
 
     private ClientRepositoryImpl repository;
 
     @BeforeEach
     void setUp() {
         clientJpaDao = mock(ClientJpaDao.class);
-        repository = new ClientRepositoryImpl(clientJpaDao);
+        tokenJpaDao = mock(bank_back.bank_back.persistence.dao.jpa.TokenJpaDao.class);
+        repository = new ClientRepositoryImpl(clientJpaDao, tokenJpaDao);
     }
 
     @Test

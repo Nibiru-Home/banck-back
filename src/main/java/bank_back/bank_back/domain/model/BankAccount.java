@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import bank_back.bank_back.domain.exception.BusinessException;
 
 public class BankAccount {
 
@@ -21,6 +22,23 @@ public class BankAccount {
         this.balance = balance;
         this.iban = iban;
         this.client = client;
+    }
+
+    public void retirar(BigDecimal importe) {
+        if (importe.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("The amount to withdraw must be greater than zero");
+        }
+        if (this.balance.compareTo(importe) < 0) {
+            throw new BusinessException("Insufficient funds");
+        }
+        this.balance = this.balance.subtract(importe);
+    }
+
+    public void ingresar(BigDecimal importe) {
+        if (importe.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("The amount to deposit must be greater than zero");
+        }
+        this.balance = this.balance.add(importe);
     }
 
     public Long getId() {
