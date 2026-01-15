@@ -45,4 +45,18 @@ public class ClientServiceImpl implements ClientService {
     public void delete(UUID id) {
         clientRepository.deleteById(id);
     }
+
+    @Override
+    public bank_back.bank_back.domain.dto.ClientDto login(String login, String password) {
+        bank_back.bank_back.domain.dto.ClientDto client = clientRepository.findByLogin(login);
+        if (client == null) {
+            throw new bank_back.bank_back.domain.exception.BusinessException(
+                    "Verifica tu numero de documento o contraseña");
+        }
+        if (!client.password().equals(password)) {
+            throw new bank_back.bank_back.domain.exception.BusinessException(
+                    "Verifica tu numero de documento o contraseña");
+        }
+        return client;
+    }
 }

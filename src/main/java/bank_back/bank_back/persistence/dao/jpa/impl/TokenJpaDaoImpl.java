@@ -29,6 +29,15 @@ public class TokenJpaDaoImpl implements TokenJpaDao {
     }
 
     @Override
+    public Optional<TokenJpaEntity> findByClientId(UUID clientId) {
+        var query = entityManager.createQuery(
+                "SELECT t FROM TokenJpaEntity t WHERE t.clientId = :clientId ORDER BY t.createdAt DESC",
+                TokenJpaEntity.class);
+        query.setParameter("clientId", clientId);
+        return query.getResultStream().findFirst();
+    }
+
+    @Override
     public List<TokenJpaEntity> findAll(int page, int size) {
         return entityManager.createQuery("SELECT t FROM TokenJpaEntity t", TokenJpaEntity.class)
                 .setFirstResult((page - 1) * size)

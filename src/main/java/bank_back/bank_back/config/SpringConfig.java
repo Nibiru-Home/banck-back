@@ -73,8 +73,8 @@ public class SpringConfig {
     }
 
     @Bean
-    public ClientRepository clientRepository(ClientJpaDao clientJpaDao) {
-        return new ClientRepositoryImpl(clientJpaDao);
+    public ClientRepository clientRepository(ClientJpaDao clientJpaDao, TokenJpaDao tokenJpaDao) {
+        return new ClientRepositoryImpl(clientJpaDao, tokenJpaDao);
     }
 
     @Bean

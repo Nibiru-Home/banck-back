@@ -18,9 +18,12 @@ import java.util.UUID;
 public class ClientRepositoryImpl implements ClientRepository {
 
     private final ClientJpaDao clientJpaDao;
+    private final bank_back.bank_back.persistence.dao.jpa.TokenJpaDao tokenJpaDao;
 
-    public ClientRepositoryImpl(ClientJpaDao clientJpaDao) {
+    public ClientRepositoryImpl(ClientJpaDao clientJpaDao,
+            bank_back.bank_back.persistence.dao.jpa.TokenJpaDao tokenJpaDao) {
         this.clientJpaDao = clientJpaDao;
+        this.tokenJpaDao = tokenJpaDao;
     }
 
     @Override
@@ -52,5 +55,36 @@ public class ClientRepositoryImpl implements ClientRepository {
     @Transactional
     public void deleteById(UUID id) {
         clientJpaDao.deleteById(id);
+    }
+
+    @Override
+    public bank_back.bank_back.domain.dto.ClientDto findByLogin(String login) {
+         java.util.Optional<bank_back.bank_back.persistence.dao.jpa.entity.ClientJpaEntity> entityOpt = clientJpaDao
+                .findByLogin(login);
+        if (entityOpt.isEmpty()) {
+            entityOpt = clientJpaDao.findByDNI(login);
+        }
+
+        return entityOpt
+                .map(clientEntity -> {
+                    String token = tokenJpaDao.findByClientId(clientEntity.getId())
+                            .map(bank_back.bank_back.persistence.dao.jpa.entity.TokenJpaEntity::getValue)
+                            .orElse(null);
+
+                    bank_back.bank_back.domain.model.Client client = ClientEntityMapper.getInstance()
+                            .toModel(clientEntity);
+
+                    return new bank_back.bank_back.domain.dto.ClientDto(
+                            client.getId(),
+                            client.getLogin(),
+                            client.getPassword(),
+                            client.getFirstName(),
+                            client.getLastName(),
+                            client.getSecondLastName(),
+                            client.getDNI(),
+                            token,
+                            null);
+                })
+                .orElse(null);
     }
 }

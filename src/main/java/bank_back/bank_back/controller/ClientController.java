@@ -73,4 +73,11 @@ public class ClientController {
         clientService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<ClientResponse> login(
+            @RequestBody bank_back.bank_back.controller.webmodel.request.LoginRequest request) {
+        ClientDto dto = clientService.login(request.login(), request.password());
+        return ResponseEntity.ok(ClientMapper.getInstance().clientDtoToClientResponse(dto));
+    }
 }
