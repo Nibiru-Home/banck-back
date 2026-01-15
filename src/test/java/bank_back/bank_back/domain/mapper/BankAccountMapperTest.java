@@ -142,7 +142,7 @@ class BankAccountMapperTest {
         BankAccount model = mapper.toModel(dto);
 
         assertNotNull(model);
-        assertNull(model.getId());
+        assertEquals(dto.id(), model.getId());
 
         assertEquals(dto.balance(), model.getBalance());
         assertEquals(dto.iban(), model.getIban());
