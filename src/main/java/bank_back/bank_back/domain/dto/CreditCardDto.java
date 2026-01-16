@@ -7,9 +7,9 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Max;
 
 public record CreditCardDto(
-                Long id,
-                @NotNull @Pattern(regexp = "^[0-9]{16}$", message = "Invalid card number") String number,
-                @NotNull @Future LocalDate expirationDate,
-                @NotNull @Max(999) int cvv,
-                @NotNull String name) {
+        Long id,
+        @NotNull @Pattern(regexp = "^[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}$", message = "Invalid card number format (XXXX XXXX XXXX XXXX)") String number,
+        @NotNull @Future LocalDate expirationDate,
+        @NotNull @Max(999) int cvv,
+        @NotNull String name) {
 }

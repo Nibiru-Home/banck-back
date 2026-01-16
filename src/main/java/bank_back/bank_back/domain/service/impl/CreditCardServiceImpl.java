@@ -17,6 +17,28 @@ public class CreditCardServiceImpl implements CreditCardService {
     }
 
     @Override
+    public bank_back.bank_back.domain.dto.CreditCardDto validate(
+            bank_back.bank_back.domain.dto.CreditCardDto creditCardDto) {
+        CreditCard storedCard = creditCardRepository.findByNumber(creditCardDto.number())
+                .orElseThrow(() -> new bank_back.bank_back.domain.exception.BusinessException(
+                        "Tarjeta no encontrada: " + creditCardDto.number()));
+
+        if (storedCard.getExpirationDate().isBefore(java.time.LocalDate.now())) {
+            throw new bank_back.bank_back.domain.exception.BusinessException("Fecha de caducidad incorrecta");
+        }
+
+        if (storedCard.getCvv() != creditCardDto.cvv()) {
+            throw new bank_back.bank_back.domain.exception.BusinessException("CVC incorrecto");
+        }
+
+        if (!storedCard.getName().equalsIgnoreCase(creditCardDto.name())) {
+            throw new bank_back.bank_back.domain.exception.BusinessException("Nombre del titular incorrecto");
+        }
+        return new bank_back.bank_back.domain.dto.CreditCardDto(storedCard.getId(), storedCard.getNumber(),
+                storedCard.getExpirationDate(), storedCard.getCvv(), storedCard.getName());
+    }
+
+    @Override
     public List<CreditCard> findAll() {
         return creditCardRepository.findAll();
     }

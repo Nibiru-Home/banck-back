@@ -38,6 +38,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Configuration
 @EnableJpaRepositories(basePackages = "bank_back.bank_back.persistence.dao.jpa")
 @EntityScan(basePackages = "bank_back.bank_back.persistence.dao.jpa.entity")
+@org.springframework.context.annotation.ComponentScan(basePackages = "bank_back.bank_back")
 public class SpringConfig {
 
     // JPA DAOs
@@ -63,8 +64,11 @@ public class SpringConfig {
 
     // Repositories
     @Bean
-    public BankAccountRepository bankAccountRepository(BankAccountJpaDao bankAccountJpaDao) {
-        return new BankAccountRepositoryImpl(bankAccountJpaDao);
+    public BankAccountRepository bankAccountRepository(
+            BankAccountJpaDao bankAccountJpaDao,
+            BankMovementJpaDao bankMovementJpaDao,
+            CreditCardJpaDao creditCardJpaDao) {
+        return new BankAccountRepositoryImpl(bankAccountJpaDao, bankMovementJpaDao, creditCardJpaDao);
     }
 
     @Bean
@@ -116,5 +120,14 @@ public class SpringConfig {
     @Bean
     public TokenService tokenService(TokenRepository tokenRepository) {
         return new TokenServiceImpl(tokenRepository);
+    }
+
+    @Bean
+    public bank_back.bank_back.domain.service.PagoTarjeta pagoTarjeta(
+            bank_back.bank_back.domain.service.ClientService clientService,
+            bank_back.bank_back.domain.service.BankAccountService bankAccountService,
+            bank_back.bank_back.domain.service.CreditCardService creditCardService) {
+        return new bank_back.bank_back.domain.service.impl.PagoTarjetaImpl(clientService, bankAccountService,
+                creditCardService);
     }
 }
