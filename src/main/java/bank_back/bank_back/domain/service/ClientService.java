@@ -17,4 +17,6 @@ public interface ClientService {
     void delete(UUID id);
 
     bank_back.bank_back.domain.dto.ClientDto login(String login, String password);
+
+    bank_back.bank_back.domain.dto.ClientDto validate(String login, String apiToken);
 }
