@@ -3,11 +3,9 @@ package bank_back.bank_back.domain.service.impl;
 import bank_back.bank_back.domain.model.BankMovement;
 import bank_back.bank_back.domain.repository.BankMovementRepository;
 import bank_back.bank_back.domain.service.BankMovementService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public class BankMovementServiceImpl implements BankMovementService {
 
     private final BankMovementRepository bankMovementRepository;

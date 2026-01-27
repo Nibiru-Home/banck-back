@@ -3,12 +3,10 @@ package bank_back.bank_back.domain.service.impl;
 import bank_back.bank_back.domain.model.Client;
 import bank_back.bank_back.domain.repository.ClientRepository;
 import bank_back.bank_back.domain.service.ClientService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
-@Service
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;

@@ -3,11 +3,9 @@ package bank_back.bank_back.domain.service.impl;
 import bank_back.bank_back.domain.model.CreditCard;
 import bank_back.bank_back.domain.repository.CreditCardRepository;
 import bank_back.bank_back.domain.service.CreditCardService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public class CreditCardServiceImpl implements CreditCardService {
 
     private final CreditCardRepository creditCardRepository;

@@ -10,10 +10,8 @@ import bank_back.bank_back.domain.service.ClientService;
 import bank_back.bank_back.domain.service.CreditCardService;
 import bank_back.bank_back.domain.service.PagoTarjeta;
 import bank_back.bank_back.domain.validation.DtoValidator;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
 public class PagoTarjetaImpl implements PagoTarjeta {
 
     private final ClientService clientService;

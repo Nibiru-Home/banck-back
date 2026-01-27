@@ -27,18 +27,12 @@
 		<url/>
 	</scm>
 	<properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jakarta.validation.version>3.0.2</jakarta.validation.version>
-        <jakarta.persistence-api.version>3.1.0</jakarta.persistence-api.version>
-        <org.spring.boot.version>3.4.0</org.spring.boot.version>
-        <org.flywaydb.version>10.0.0</org.flywaydb.version>
-        <spring.boot.version>3.4.0</spring.boot.version>
-        <org.mockito.version>5.14.2</org.mockito.version>
-        <org.junit.version>5.10.2</org.junit.version>
-        <com.h2database.version>2.3.232</com.h2database.version>
-    </properties>
+		<java.version>17</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<org.flywaydb.version>10.0.0</org.flywaydb.version>
+		<org.mockito.version>5.14.2</org.mockito.version>
+		<com.h2database.version>2.3.232</com.h2database.version>
+	</properties>
 
     <dependencies>
         <dependency>
@@ -69,9 +63,8 @@
             <artifactId>flyway-mysql</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
-            <scope>runtime</scope>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -82,7 +75,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-subclass</artifactId>
-            <version>5.14.2</version>
+            <version>${org.mockito.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -103,11 +96,11 @@
         <plugin>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-maven-plugin</artifactId>
-            <version>10.0.0</version>
+            <version>${org.flywaydb.version}</version>
             <configuration>
-                <url>jdbc:mysql://localhost:3306/nibirubank</url>
-                <user>root</user>
-                <password>root1234</password>
+                <url>jdbc:mariadb://localhost:3306/nibiru-home</url>
+                <user>nibiruHome</user>
+                <password>nibiruHome</password>
             </configuration>
         </plugin>
 		</plugins>
