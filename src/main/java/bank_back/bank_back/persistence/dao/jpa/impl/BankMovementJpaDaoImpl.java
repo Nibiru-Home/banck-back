@@ -53,7 +53,18 @@ public class BankMovementJpaDaoImpl implements BankMovementJpaDao {
     @Override
     public List<BankMovementJpaEntity> findByOriginCreditCardId(Long id) {
         return entityManager
-                .createQuery("SELECT b FROM BankMovementJpaEntity b WHERE b.originCreditCard.id = :id",
+                .createQuery(
+                        "SELECT b FROM BankMovementJpaEntity b WHERE b.originCreditCard.id = :id ORDER BY b.timestamp DESC, b.id DESC",
+                        BankMovementJpaEntity.class)
+                .setParameter("id", id)
+                .getResultList();
+    }
+
+    @Override
+    public List<BankMovementJpaEntity> findByBankAccountId(Long id) {
+        return entityManager
+                .createQuery(
+                        "SELECT b FROM BankMovementJpaEntity b WHERE b.bankAccount.id = :id ORDER BY b.timestamp DESC, b.id DESC",
                         BankMovementJpaEntity.class)
                 .setParameter("id", id)
                 .getResultList();

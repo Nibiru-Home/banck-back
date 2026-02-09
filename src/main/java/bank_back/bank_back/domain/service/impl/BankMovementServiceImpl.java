@@ -10,7 +10,7 @@ public class BankMovementServiceImpl implements BankMovementService {
 
     private final BankMovementRepository bankMovementRepository;
 
-    public BankMovementServiceImpl (BankMovementRepository bankMovementRepository) {
+    public BankMovementServiceImpl(BankMovementRepository bankMovementRepository) {
         this.bankMovementRepository = bankMovementRepository;
     }
 
@@ -22,6 +22,11 @@ public class BankMovementServiceImpl implements BankMovementService {
     @Override
     public List<BankMovement> findByCreditCardId(Long id) {
         return bankMovementRepository.findByCreditCardId(id);
+    }
+
+    @Override
+    public List<BankMovement> findByBankAccountId(Long id) {
+        return bankMovementRepository.findByBankAccountId(id);
     }
 
     @Override

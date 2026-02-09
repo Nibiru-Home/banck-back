@@ -55,6 +55,16 @@ public class BankMovementController {
         return ResponseEntity.ok(responses);
     }
 
+    @GetMapping("/account/{id}")
+    public ResponseEntity<List<BankMovementResponse>> findByBankAccountId(@PathVariable Long id) {
+        List<BankMovement> bankMovements = bankMovementService.findByBankAccountId(id);
+        List<BankMovementResponse> responses = bankMovements.stream()
+                .map(bankMovementDomainMapper::toDto)
+                .map(BankMovementMapper.getInstance()::bankMovementDtoToBankMovementResponse)
+                .toList();
+        return ResponseEntity.ok(responses);
+    }
+
     @PostMapping
     public ResponseEntity<BankMovementResponse> create(@RequestBody BankMovementRequest request) {
         BankMovementDto dto = BankMovementMapper.getInstance().bankMovementRequestToBankMovementDto(request);

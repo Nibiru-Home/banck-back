@@ -58,4 +58,11 @@ public class BankMovementRepositoryImpl implements BankMovementRepository {
                 .map(BankMovementEntityMapper.getInstance()::toModel)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<BankMovement> findByBankAccountId(Long bankAccountId) {
+        return bankMovementJpaDao.findByBankAccountId(bankAccountId).stream()
+                .map(BankMovementEntityMapper.getInstance()::toModel)
+                .collect(Collectors.toList());
+    }
 }
