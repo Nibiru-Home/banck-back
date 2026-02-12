@@ -18,6 +18,12 @@ public class CorsConfig implements WebMvcConfigurer {
 
     private static final String[] ALLOWED_METHODS = { "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS" };
     private static final List<String> DEFAULT_ORIGIN_PATTERNS = List.of(
+            "http://localhost:*",
+            "http://127.0.0.1:*",
+            "http://[::1]:*",
+            "https://localhost:*",
+            "https://127.0.0.1:*",
+            "https://[::1]:*",
             "http://banck.nibiruhome.store",
             "https://banck.nibiruhome.store",
             "http://bank.nibiruhome.store",
@@ -26,7 +32,7 @@ public class CorsConfig implements WebMvcConfigurer {
     private final List<String> allowedOriginPatterns;
 
     public CorsConfig(
-            @Value("${app.cors.allowed-origins:http://bank.nibiruhome.store,https://bank.nibiruhome.store}") String allowedOriginPatterns) {
+            @Value("${app.cors.allowed-origins:http://localhost:*,http://127.0.0.1:*,http://[::1]:*,https://localhost:*,https://127.0.0.1:*,https://[::1]:*,http://bank.nibiruhome.store,https://bank.nibiruhome.store}") String allowedOriginPatterns) {
         this.allowedOriginPatterns = Stream.concat(
                 Arrays.stream(allowedOriginPatterns.split(","))
                         .map(String::trim)
