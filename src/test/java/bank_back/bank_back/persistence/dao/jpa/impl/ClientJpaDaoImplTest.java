@@ -12,7 +12,11 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 class ClientJpaDaoImplTest {
 
     private ClientJpaDaoImpl createDao(EntityManager entityManager) {
@@ -22,9 +26,8 @@ class ClientJpaDaoImplTest {
     }
 
     @Test
-    void findAll_ShouldReturnResults() {
-        EntityManager entityManager = mock(EntityManager.class);
-        TypedQuery<ClientJpaEntity> typedQuery = mock(TypedQuery.class);
+    void findAll_ShouldReturnResults(@Mock EntityManager entityManager,
+            @Mock TypedQuery<ClientJpaEntity> typedQuery) {
         ClientJpaDaoImpl dao = createDao(entityManager);
         ClientJpaEntity entity = new ClientJpaEntity();
 

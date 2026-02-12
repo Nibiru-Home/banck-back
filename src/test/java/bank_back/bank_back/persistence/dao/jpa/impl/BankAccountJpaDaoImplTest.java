@@ -11,7 +11,11 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 class BankAccountJpaDaoImplTest {
 
     private BankAccountJpaDaoImpl createDao(EntityManager entityManager) {
@@ -21,9 +25,8 @@ class BankAccountJpaDaoImplTest {
     }
 
     @Test
-    void findAll_ShouldReturnResults() {
-        EntityManager entityManager = mock(EntityManager.class);
-        TypedQuery<BankAccountJpaEntity> typedQuery = mock(TypedQuery.class);
+    void findAll_ShouldReturnResults(@Mock EntityManager entityManager,
+            @Mock TypedQuery<BankAccountJpaEntity> typedQuery) {
         BankAccountJpaDaoImpl dao = createDao(entityManager);
         BankAccountJpaEntity entity = new BankAccountJpaEntity();
 
